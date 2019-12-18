@@ -13,7 +13,7 @@ class GradientArc {
 
     _createComponent() {
         this.component = document.createElement("div");
-        this.component.innerHTML = 
+        this.component.innerHTML =
             `<div id="component_container">
                 <canvas id="arc_canvas"></canvas>
             </div>`;
@@ -25,7 +25,7 @@ class GradientArc {
     _addProgressCircle() {
         let center = {
             x: this.canvas.height / 2,
-            y: this.canvas.height / 2 
+            y: this.canvas.height / 2
         };
         let radius = this.canvas.width / 2 - this._assets('arcWidth') / 2;
 
