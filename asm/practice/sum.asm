@@ -12,7 +12,7 @@ start:
     add     eax, edx
     call    print_eax
 
-	push	0
-	call	[ExitProcess]
+    push	0
+    call	[ExitProcess]
 
 include 'training.inc'

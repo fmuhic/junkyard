@@ -15,7 +15,7 @@ start:
     call    print_eax   ; Prints eax as hex back to console.
 
     ; Exit the process:
-	push	0
-	call	[ExitProcess]
+    push	0
+    call	[ExitProcess]
 
 include 'training.inc'
