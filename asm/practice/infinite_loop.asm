@@ -6,12 +6,14 @@ include 'win32a.inc'
 section '.text' code readable executable
 
 start:
-    call    read_hex
-    mov     edx,eax
-    call    read_hex
-    add     eax,edx
-    call    print_eax
+    mov     eax,0
 
+incrementer:
+    inc     eax
+    call    print_eax
+    jmp     incrementer    
+
+    ; Never executed
     push	0
     call	[ExitProcess]
 
