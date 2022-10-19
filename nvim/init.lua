@@ -1,0 +1,6 @@
+require "custom.options"
+require "custom.plugins"
+require "custom.keymaps"
+require "custom.completion"
+require "custom.lsp"
+require "custom.colorscheme"
