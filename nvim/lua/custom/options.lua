@@ -4,8 +4,11 @@ local options = {
     -- creates a backup file
     backup = false,
 
+    -- always show tabs
+    showtabline = 2,
+
     -- allows neovim to access the system clipboard
-    clipboard = "unnamedplus",
+    clipboard = "",
 
     -- mostly just for cmp
     completeopt = { "menuone", "noselect" },
@@ -18,6 +21,9 @@ local options = {
 
     -- highlight all matches on previous search pattern
     hlsearch = true,
+
+    -- set cursor to block in isert mode
+    --[[ guicursor = "", ]]
 
     -- ignore case in search patterns
     ignorecase = true,
@@ -73,10 +79,13 @@ local options = {
     -- set number column width to 2 {default 4}
     numberwidth = 2,
 
+    -- always show the sign column, otherwise it would shift the text each time
+    signcolumn = "yes",
+
     -- display lines as one long line
     wrap = false,
 
-    -- is one of my fav
+    -- Min scroll offset
     scrolloff = 8,
     sidescrolloff = 8,
 
@@ -93,3 +102,4 @@ end
 
 -- Treat dash separated words as one (one-word)
 vim.cmd [[set iskeyword+=-]]
+vim.cmd [[set guicursor=i:block]]

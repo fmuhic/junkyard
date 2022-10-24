@@ -54,6 +54,10 @@ keymap("n", "<C-Down>", ":resize -2<CR>", opts)
 keymap("n", "<C-Left>", ":vertical resize -2<CR>", opts)
 keymap("n", "<C-Right>", ":vertical resize +2<CR>", opts)
 
+-- Insert empty line without changing mode
+keymap("n", "<Enter>", "o<Esc>k", opts)
+keymap("n", "<S-Enter>", "O<Esc>j", opts)
+
 -- Navigate buffers
 --keymap("n", "<C-e>", ":bnext<CR>", opts)
 --keymap("n", "<C-q>", ":bprevious<CR>", opts)
@@ -134,9 +138,12 @@ keymap("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
 -- Telescope fuzzy bindings
 local telescope = require('telescope.builtin')
 
-vim.keymap.set('n', '<C-j>', telescope.lsp_definitions, opts)
-vim.keymap.set('n', '<C-k>', telescope.lsp_references, opts)
-vim.keymap.set("n", "<C-o>", telescope.live_grep, opts)
-keymap("n", "<C-p>", "<cmd>lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({ previewer = false }))<cr>", opts)
+vim.keymap.set('n', '<A-j>', telescope.lsp_definitions, opts)
+vim.keymap.set('n', '<A-k>', telescope.lsp_references, opts)
+vim.keymap.set("n", "<A-o>", telescope.live_grep, opts)
+keymap("n", "<A-p>", "<cmd>lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({ previewer = false }))<cr>", opts)
 keymap("n", "<C-d>", "<cmd>lua require'telescope.builtin'.diagnostics(require('telescope.themes').get_dropdown())<CR>", opts)
 keymap("n", "<leader>d", "<cmd>lua vim.diagnostic.open_float({ border = 'rounded' })<CR>", opts)
+
+-- Nvimtree
+keymap("n", ";", ":NvimTreeToggle<CR>", opts)
