@@ -4,9 +4,6 @@ local options = {
     -- creates a backup file
     backup = false,
 
-    -- always show tabs
-    showtabline = 2,
-
     -- allows neovim to access the system clipboard
     clipboard = "",
 
@@ -22,8 +19,8 @@ local options = {
     -- highlight all matches on previous search pattern
     hlsearch = true,
 
-    -- set cursor to block in isert mode
-    --[[ guicursor = "", ]]
+    -- set cursor to block
+    guicursor = "",
 
     -- ignore case in search patterns
     ignorecase = true,
@@ -68,7 +65,7 @@ local options = {
     tabstop = 4,
 
     -- highlight the current line
-    cursorline = true,
+    cursorline = false,
 
     -- set numbered lines
     number = true,

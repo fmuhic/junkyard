@@ -7,9 +7,9 @@ local term_opts = { silent = true }
 
 
 -- Set space as leader key
-keymap("", "<Space>", "<Nop>", opts)
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
+keymap("", ",", "<Nop>", opts)
+vim.g.mapleader = ","
+vim.g.maplocalleader = ","
 
 
 --------------------------------------
@@ -31,10 +31,10 @@ keymap({"n", "v", "x"}, "L", "$", opts)
 keymap("n", "<leader>q", "q", opts)
 
 -- Clear highlight after search
-keymap("n", "<leader>n", ":noh<CR>", opts)
+keymap("n", "<leader>n", ":noh<Cr>", opts)
 
 -- Quick save
-keymap("n", "<leader>w", ":w!<CR>", opts_visible)
+keymap("n", "<leader>w", ":w!<Cr>", opts_visible)
 
 -- Scroll navigation
 keymap("n", "<S-k>", "5<C-y>", opts)
@@ -49,18 +49,18 @@ keymap("n", "<C-l>", "<C-w>l", opts)
 keymap("n", "<leader>e", ":Lex 30<cr>", opts)
 
 -- Resize with arrows
-keymap("n", "<C-Up>", ":resize +2<CR>", opts)
-keymap("n", "<C-Down>", ":resize -2<CR>", opts)
-keymap("n", "<C-Left>", ":vertical resize -2<CR>", opts)
-keymap("n", "<C-Right>", ":vertical resize +2<CR>", opts)
+keymap("n", "<C-Up>", ":resize +2<Cr>", opts)
+keymap("n", "<C-Down>", ":resize -2<Cr>", opts)
+keymap("n", "<C-Left>", ":vertical resize -2<Cr>", opts)
+keymap("n", "<C-Right>", ":vertical resize +2<Cr>", opts)
 
 -- Insert empty line without changing mode
 keymap("n", "<Enter>", "o<Esc>k", opts)
 keymap("n", "<S-Enter>", "O<Esc>j", opts)
 
 -- Navigate buffers
---keymap("n", "<C-e>", ":bnext<CR>", opts)
---keymap("n", "<C-q>", ":bprevious<CR>", opts)
+keymap("n", "<A-n>", ":bprevious<Cr>", opts)
+keymap("n", "<A-m>", ":bnext<Cr>", opts)
 
 
 
@@ -71,9 +71,9 @@ keymap("n", "<S-Enter>", "O<Esc>j", opts)
 --------------------------------------
 
 -- Exit insert mode
-keymap("i", "jk", "<ESC>", opts)
-keymap("i", "Jk", "<ESC>", opts)
-keymap("i", "JK", "<ESC>", opts)
+keymap("i", "jk", "<Esc>", opts)
+keymap("i", "Jk", "<Esc>", opts)
+keymap("i", "JK", "<Esc>", opts)
 
 
 
@@ -84,13 +84,16 @@ keymap("i", "JK", "<ESC>", opts)
 --------------------------------------
 
 -- Exit visaul modes
-keymap({"v", "x"}, "<leader>jk", "<ESC>", opts)
-keymap({"v", "x"}, "<leader>Jk", "<ESC>", opts)
-keymap({"v", "x"}, "<leader>JK", "<ESC>", opts)
+keymap({"v", "x"}, "<leader>jk", "<Esc>", opts)
+keymap({"v", "x"}, "<leader>Jk", "<Esc>", opts)
+keymap({"v", "x"}, "<leader>JK", "<Esc>", opts)
 
--- Indent with tab
-keymap("v", "<TAB>", ">gv", opts)
-keymap("v", "<S-TAB>", "<gv", opts)
+-- Indent one space with <Space>
+keymap({"v", "x"}, "<Space>", ":s/^/ /<Cr>:noh<Cr>gv", opts)
+
+-- Indent one tab with tab
+keymap("v", "<Tab>", ">gv", opts)
+keymap("v", "<S-Tab>", "<gv", opts)
 
 -- Stay in indent mode
 keymap("v", "<", "<gv", opts)
@@ -108,10 +111,10 @@ keymap("v", "p", '"_dP', opts)
 --------------------------------------
 
 -- Move text up and down
-keymap("x", "J", ":move '>+1<CR>gv-gv", opts)
-keymap("x", "K", ":move '<-2<CR>gv-gv", opts)
-keymap("x", "<A-j>", ":move '>+1<CR>gv-gv", opts)
-keymap("x", "<A-k>", ":move '<-2<CR>gv-gv", opts)
+keymap("x", "J", ":move '>+1<Cr>gv-gv", opts)
+keymap("x", "K", ":move '<-2<Cr>gv-gv", opts)
+keymap("x", "<A-j>", ":move '>+1<Cr>gv-gv", opts)
+keymap("x", "<A-k>", ":move '<-2<Cr>gv-gv", opts)
 
 
 
@@ -141,9 +144,11 @@ local telescope = require('telescope.builtin')
 vim.keymap.set('n', '<A-j>', telescope.lsp_definitions, opts)
 vim.keymap.set('n', '<A-k>', telescope.lsp_references, opts)
 vim.keymap.set("n", "<A-o>", telescope.live_grep, opts)
-keymap("n", "<A-p>", "<cmd>lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({ previewer = false }))<cr>", opts)
-keymap("n", "<C-d>", "<cmd>lua require'telescope.builtin'.diagnostics(require('telescope.themes').get_dropdown())<CR>", opts)
-keymap("n", "<leader>d", "<cmd>lua vim.diagnostic.open_float({ border = 'rounded' })<CR>", opts)
+keymap("n", "<A-p>", "<Cmd>lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({ previewer = false }))<Cr>", opts)
+keymap("n", "<C-d>", "<Cmd>lua require'telescope.builtin'.diagnostics(require('telescope.themes').get_dropdown())<Cr>", opts)
+keymap("n", "<leader>d", "<cmd>lua vim.diagnostic.open_float({ border = 'rounded' })<Cr>", opts)
 
 -- Nvimtree
-keymap("n", ";", ":NvimTreeToggle<CR>", opts)
+keymap("n", ";", ":NvimTreeToggle<Cr>", opts)
+
+-- Test
