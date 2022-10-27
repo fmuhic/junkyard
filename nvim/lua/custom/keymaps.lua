@@ -102,6 +102,15 @@ keymap("v", ">", ">gv", opts)
 -- Hold the yank
 keymap("v", "p", '"_dP', opts)
 
+-- Copy to clipboard
+keymap("v", "<leader>y", "\"+y", opts)
+keymap("v", "<leader>Y", "\"+yg_", opts)
+keymap("v", "<leader>yy", "\"+yy", opts)
+
+-- Paste from clipboard
+keymap("v", "<leader>p", "\"+p", opts)
+keymap("v", "<leader>P", "\"+P", opts)
+
 
 
 
