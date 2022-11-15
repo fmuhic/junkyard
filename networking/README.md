@@ -10,11 +10,9 @@
     - [Subnet Mask](#subnet-mask)
     - [CIDR](#cidr)
 
----
 
 ### IP Addresses
 
----
 ##### IPv4 Classes
 
 | Class | Public IP Range | Mask | Private IP Range |
