@@ -8,7 +8,7 @@ $ docker build . -t simple-server
 ```
 
 Run multiple containers:
-```sh
+``` bash
 $ docker run -e SERVER_ID=1 -p 9090:8080 simple-server
 $ docker run -e SERVER_ID=2 -p 9091:8080 simple-server
 $ docker run -e SERVER_ID=3 -p 9092:8080 simple-server
