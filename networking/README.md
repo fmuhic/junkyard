@@ -68,8 +68,8 @@
 
 Ip         = 192.168.1.18/24
 Subnet     = 192.168.1.00000000 = 192.168.1.0 
-First host = 192.168.1.00000001 = 192.168.1.1 
-Last host  = 192.168.1.11111110 = 192.168.1.254 
+First_host = 192.168.1.00000001 = 192.168.1.1 
+Last_host  = 192.168.1.11111110 = 192.168.1.254 
 Broadcast  = 192.168.1.11111111 = 192.168.1.255 
 
 ```
@@ -92,8 +92,8 @@ Broadcast  = 172.16.0010_1111.11111111 = 172.16.47.255
 
 Ip         = 172.16.129.1/17 = 172.16.1_0000001.01111011
 Subnet     = 172.16.1_0000000.00000000 = 172.16.128.0
-First host = 172.16.1_0000000.00000001 = 172.16.128.1
-Last host  = 172.16.1_1111111.11111110 = 172.16.255.254 
+First_host = 172.16.1_0000000.00000001 = 172.16.128.1
+Last_host  = 172.16.1_1111111.11111110 = 172.16.255.254 
 Broadcast  = 172.16.1_1111111.11111111 = 172.16.25547.255 
 
 ```
@@ -113,9 +113,9 @@ Broadcast  = 172.16.1_1111111.11111111 = 172.16.25547.255
 // Example 1
 // Given subnet 10.1.1.0/24, split it into smaller subnets each containing 14 machines
 
-Subnet = 10.1.1.0/24 = 10.1.1.00000000
-Network = 10.1.1.
-Host = .0
+Subnet_= 10.1.1.0/24 = 10.1.1.00000000
+Network = 10.1.1
+Host = 0
 
 // We need number of hosts so we use:
 // hosts <= 2^n - 2  
@@ -127,16 +127,16 @@ Host = .0
 // will now belong to network portion
 // We need to calculate new mask, which is 28
 
-New subnet = 10.1.1.0000_0000/28
+New_subnet = 10.1.1.0000_0000/28
 
 // We created multiple networks from existing subnet, each containing 16 addresses,
 // but 2 are reserved for subnet and broadcast
 
-First network  = 10.1.1.0000_0000 = 10.1.1.0/28 
-Second network = 10.1.1.0001_0000 = 10.1.1.16/28 
-Third network  = 10.1.1.0010_0000 = 10.1.1.32/28 
-Fourth network = 10.1.1.0011_0000 = 10.1.1.48/28 
-Last network   = 10.1.1.1111_0000 = 10.1.1.240/28 
+First_network  = 10.1.1.0000_0000 = 10.1.1.0/28 
+Second_network = 10.1.1.0001_0000 = 10.1.1.16/28 
+Third_network  = 10.1.1.0010_0000 = 10.1.1.32/28 
+Fourth_network = 10.1.1.0011_0000 = 10.1.1.48/28 
+Last_network   = 10.1.1.1111_0000 = 10.1.1.240/28 
 
 ```
 
@@ -151,12 +151,12 @@ Subnet = 10.128.192.0/18 = 10.128.11_00000.00000000
 // This means that we need to "steal" 5 bits from host poriton of an address and allocate it to network portion
 // We count network bits from left to right and calculate new mask, which is 18 + 5 = 23
 
-New Subnet     = 10.128.1100000_0.00000000
+New_Subnet     = 10.128.1100000_0.00000000
 
-First network  = 10.128.1100000_0.00000000 = 10.128.192.0/23
-Second network = 10.128.1100001_0.00000000 = 10.128.194.0/23
-Third network  = 10.128.1100010_0.00000000 = 10.128.196.0/23
-Fourth network = 10.128.1100011_0.00000000 = 10.128.198.0/23
-Last network   = 10.128.1111111_0.00000000 = 10.128.254.0/23 
+First_network  = 10.128.1100000_0.00000000 = 10.128.192.0/23
+Second_network = 10.128.1100001_0.00000000 = 10.128.194.0/23
+Third_network  = 10.128.1100010_0.00000000 = 10.128.196.0/23
+Fourth_network = 10.128.1100011_0.00000000 = 10.128.198.0/23
+Last_network   = 10.128.1111111_0.00000000 = 10.128.254.0/23 
 
 ```
