@@ -10,6 +10,8 @@
     - [Subnet Mask](#subnet-mask)
     - [CIDR](#cidr)
     - [Subnetting](#subnetting)
+- [Packet Tracer](#packet-tracer)
+    - [Configuration](#configuration)
 
 
 ### IP Addresses
@@ -145,10 +147,10 @@ Last_network   = 10.1.1.1111_0000 = 10.1.1.240/28
 // Given subnet 10.128.192.0/18, split it into 30 smaller subnets with as many host as possible
 Subnet = 10.128.192.0/18 = 10.128.11_00000.00000000
 
-// We need number of networks so we use:
+// To get number of networks we use:
 // networks <= 2^n
 // 30 <= 2^5 => 30 <= 32
-// This means that we need to "steal" 5 bits from host poriton of an address and allocate it to network portion
+// We need to "steal" 5 bits from host poriton of an address and allocate it to network portion
 // We count network bits from left to right and calculate new mask, which is 18 + 5 = 23
 
 New_Subnet     = 10.128.1100000_0.00000000
@@ -158,5 +160,38 @@ Second_network = 10.128.1100001_0.00000000 = 10.128.194.0/23
 Third_network  = 10.128.1100010_0.00000000 = 10.128.196.0/23
 Fourth_network = 10.128.1100011_0.00000000 = 10.128.198.0/23
 Last_network   = 10.128.1111111_0.00000000 = 10.128.254.0/23 
+
+```
+
+### Packet Tracer
+
+#### Configuration
+
+###### Useful commands
+
+```sh
+# Configure Router
+$enable # go to privileged mode
+$show ip interface brief # see all interfaces
+$configure terminal # go to global config mode
+$interface gigabitEthernet 0/0/0 # configure interface 0/0/0 mode
+$ip address 10.1.1.1 255.255.255.0 # configure ip and mask
+$no shutdown # enable interface
+$exit # back to global config mode
+$hostname R1 # set hostname
+$end # back to privileged mode
+$copy running-config startup-config # save config or just use wr
+
+# Configure Switch
+$en # go to privileged mode
+$conf t # go to global config mode
+$ip default-gateway 192.168.1.62 255.255.255.192 
+$host S1 # set host name
+$interface vlan 1 # configure vlan interface
+$no shut # enable
+$ip address 192.168.1.61 255.255.255.192
+$exit # back to global config mode
+$end # back to privileged mode
+$wr # save config with short wr
 
 ```
