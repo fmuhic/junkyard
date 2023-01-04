@@ -53,6 +53,9 @@ return packer.startup(function(use)
   -- Colorschemes
   use 'folke/tokyonight.nvim'
 
+  -- Dashboard
+  use 'glepnir/dashboard-nvim'
+
   -- Status line
   use {
     'nvim-lualine/lualine.nvim',
@@ -93,11 +96,16 @@ return packer.startup(function(use)
   use "rafamadriz/friendly-snippets" -- a bunch of snippets to use
 
   -- LSP
-  use "neovim/nvim-lspconfig" -- enable LSP
-  use "williamboman/nvim-lsp-installer" -- simple to use language server installer
+  use {
+    "williamboman/mason.nvim",
+    "williamboman/mason-lspconfig.nvim",
+    "neovim/nvim-lspconfig",
+    "simrat39/rust-tools.nvim"
+  }
 
-  -- Fuzzy search
+  -- Telescope and extensions
   use "nvim-telescope/telescope.nvim"
+  use "nvim-telescope/telescope-project.nvim"
 
   -- Treesitter
   use {

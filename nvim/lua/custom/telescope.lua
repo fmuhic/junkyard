@@ -3,6 +3,11 @@ if not status_ok then
   return
 end
 
+-- Extensions
+telescope.load_extension('project')
+
+
+-- Setup
 local actions = require "telescope.actions"
 
 telescope.setup {
@@ -90,6 +95,17 @@ telescope.setup {
         -- defaults to {"png", "jpg", "mp4", "webm", "pdf"}
         filetypes = {"png", "webp", "jpg", "jpeg"},
         find_cmd = "rg" -- find command (defaults to `fd`)
+      },
+      project = {
+        base_dirs = {
+          '~/code',
+          '~/code/junkyard/',
+        },
+        hidden_files = true, -- default: false
+        theme = "dropdown",
+        order_by = "asc",
+        search_by = "title",
+        sync_with_nvim_tree = true, -- default false
       }
     -- Your extension configuration goes here:
     -- extension_name = {
@@ -98,3 +114,4 @@ telescope.setup {
     -- please take a look at the readme of the extension you want to configure
   },
 }
+
