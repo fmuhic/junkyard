@@ -1,6 +1,6 @@
 use log::{info, error};
 use std::net::{TcpListener, TcpStream};
-use std::io::{Write};
+use std::io::Write;
 
 fn serve_connection(mut stream: TcpStream) -> Result<(), String> {
     let body = "<html><head></head><body>hello</body></html>".to_string();

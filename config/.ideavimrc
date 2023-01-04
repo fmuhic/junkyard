@@ -1,0 +1,124 @@
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"   Custom shortcuts
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+
+" Leader key
+let mapleader = ","
+let g:mapleader = ","
+
+
+"--------------------------------------------------------------
+"   Normal mode shortcuts
+"--------------------------------------------------------------
+
+" Remove Space maping
+nmap <Space> <Nop>
+
+" Fast saving with LEADER + w
+nnoremap <leader>w :w!<cr>
+
+" Swith to another split window with CTRL + h and save 
+nnoremap <c-h> :w<CR><c-w>w
+
+" Scroll up 5 lines without moving cursor
+nnoremap <s-k> 5<c-y>
+
+" Scroll down 5 lines without moving cursor
+nnoremap <s-j> 5<c-e>
+
+" Clear highlighted text after search with LEADER + n
+nnoremap <leader>n :noh<CR>
+
+" Move backward to the beginning of a word is q now 
+nnoremap q b
+
+" Move backward to the beginning of a WORD is Q now 
+nnoremap Q B
+
+" Start recording commands is leader + q now
+nnoremap <leader>q q
+
+" Move to the end of the line is L now
+nnoremap L $
+
+" Move to the beginning of the line is H now
+nnoremap H 0
+
+" Insert empty line without changing mode
+nnoremap <Enter> o<ESC>k
+nnoremap <S-Enter> O<ESC>j
+
+ 
+"--------------------------------------------------------------
+"   Insert mode shortcuts
+"--------------------------------------------------------------
+
+" Exit insert mode with jk, Jk or JK
+inoremap jk <esc>
+inoremap Jk <esc>
+inoremap JK <esc>
+
+"--------------------------------------------------------------
+"   Visual mode shortcuts
+"--------------------------------------------------------------
+
+" Exit visual mode with LEADER + jk, Jk or JK 
+vnoremap <leader>jk <esc>
+vnoremap <leader>Jk <esc>
+vnoremap <leader>JK <esc>
+
+" Indenting text with TAB or SHIFT + TAB
+vmap <Tab> >gv
+vmap <S-Tab> <gv
+
+" Copy, cut and paste work with CTRL now
+vmap <C-c> "+y
+vmap <C-x> "+c
+vmap <C-v> c<ESC>"+p
+imap <C-v> <C-r><C-o>+
+
+" Scroll up 5 lines without moving cursor
+vnoremap <s-k> 5<c-y>
+
+" Scroll down 5 lines without moving cursor
+vnoremap <s-j> 5<c-e>
+
+" Move backward to the beginning of a word is q now 
+vnoremap q b
+
+" Move backward to the beginning of a WORD is Q now 
+vnoremap Q B
+
+" Start recording commands is leader + q now
+vnoremap <leader>q q
+
+" Move to the beginning of the line is H now
+vnoremap H 0
+
+" Move to the end of the line is H now
+vnoremap L $
+
+" Shift line on the right for one space with SPACE
+function! AddSpace(num) range
+  let s:counter = 0
+  let s:spaces = ''
+  while s:counter < a:num
+    let s:spaces .= ' '
+    let s:counter = s:counter + 1
+  endwhile
+    execute a:firstline .','. a:lastline .'s/^/'. s:spaces
+endfunction
+
+vnoremap <SPACE> :call AddSpace(1)<CR>gv
+
+
+"--------------------------------------------------------------
+"   Intellij mappings
+"--------------------------------------------------------------
+
+nmap <Space>n <Action>(GotoImplementation)
+nmap <Space>m <Action>(Back)
+nmap <Space>p <Action>(GotoFile)
+nmap <Space>o <Action>(FindInPath)
+nmap <Space>q <Action>(io.github.newhoo.project.navigate.MyProjectSearchAction)
