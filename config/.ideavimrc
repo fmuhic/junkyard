@@ -117,7 +117,7 @@ vnoremap <SPACE> :call AddSpace(1)<CR>gv
 "   Intellij mappings
 "--------------------------------------------------------------
 
-nmap <Space>n <Action>(GotoImplementation)
+nmap <Space>n <Action>(GotoDeclaration)
 nmap <Space>m <Action>(Back)
 nmap <Space>p <Action>(GotoFile)
 nmap <Space>o <Action>(FindInPath)
