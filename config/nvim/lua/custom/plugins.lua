@@ -54,7 +54,12 @@ return packer.startup(function(use)
   use 'folke/tokyonight.nvim'
 
   -- Dashboard
-  use 'glepnir/dashboard-nvim'
+  use {
+    'glepnir/dashboard-nvim',
+    event = 'VimEnter',
+    config = require('custom.dashboard_config').setup,
+    requires = {'nvim-tree/nvim-web-devicons'}
+  }
 
   -- Status line
   use {
