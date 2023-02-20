@@ -62,7 +62,7 @@ keymap("n", "<Enter>", "o<Esc>k", opts)
 keymap("n", "<S-Enter>", "O<Esc>j", opts)
 
 -- Navigate buffers
-keymap("n", "<Space>m", ":bprevious<Cr>", opts)
+keymap("n", "<Space>m", "<C-O>", opts)
 keymap("n", "<Space>,", ":bnext<Cr>", opts)
 
 

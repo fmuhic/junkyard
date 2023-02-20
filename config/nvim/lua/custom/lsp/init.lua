@@ -4,10 +4,10 @@ require("mason-lspconfig").setup()
 local config = require("custom.lsp.config")
 config.initialize()
 
-require("lspconfig")["sumneko_lua"].setup(
+require("lspconfig")["lua_ls"].setup(
     vim.tbl_deep_extend(
         "force",
-        require("custom.lsp.server_config.sumneko_lua"),
+        require("custom.lsp.server_config.lua_ls"),
         config.options
     )
 )
