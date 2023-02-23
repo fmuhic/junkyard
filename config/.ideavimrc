@@ -117,8 +117,16 @@ vnoremap <SPACE> :call AddSpace(1)<CR>gv
 "   Intellij mappings
 "--------------------------------------------------------------
 
+nmap <leader>d <Action>(ShowIntentionActions)
 nmap <Space>n <Action>(GotoDeclaration)
 nmap <Space>m <Action>(Back)
 nmap <Space>p <Action>(GotoFile)
 nmap <Space>o <Action>(FindInPath)
 nmap <Space>q <Action>(io.github.newhoo.project.navigate.MyProjectSearchAction)
+
+" Tab action
+nmap <C-l> <Action>(NextTab)
+nmap <C-h> <Action>(PreviousTab)
+nmap <C-;> <Action>(VimWindowClose)
+
+vmap gc <Action>(CommentByLineComment)
