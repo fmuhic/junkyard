@@ -1,0 +1,6 @@
+map h previousTab
+map l nextTab
+map q goBack
+map e goForward
+map J scrollLeft
+map K scrollRight

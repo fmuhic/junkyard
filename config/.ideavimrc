@@ -128,5 +128,6 @@ nmap <Space>q <Action>(io.github.newhoo.project.navigate.MyProjectSearchAction)
 nmap <C-l> <Action>(NextTab)
 nmap <C-h> <Action>(PreviousTab)
 nmap <C-;> <Action>(VimWindowClose)
+nmap <C-p> <Action>(PinActiveTab)
 
 vmap gc <Action>(CommentByLineComment)
