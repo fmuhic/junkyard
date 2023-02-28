@@ -163,3 +163,8 @@ keymap("n", "<leader>D>", "<Cmd>lua require'telescope.builtin'.diagnostics(requi
 
 -- Nvimtree
 keymap("n", ";", ":NvimTreeToggle<Cr>", opts)
+
+-- Neorg
+keymap("n", "mm", ":Neorg workspace notes<Cr>", opts)
+keymap("n", "mw", ":Neorg workspace work<Cr>", opts)
+keymap("n", "mc", ":Neorg return<Cr>", opts)

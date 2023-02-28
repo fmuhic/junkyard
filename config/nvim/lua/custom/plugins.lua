@@ -87,6 +87,39 @@ return packer.startup(function(use)
     ft = { "markdown" },
   })
 
+  -- Todo
+  use {
+    "nvim-neorg/neorg",
+        config = function()
+            require('neorg').setup {
+                load = {
+                    ["core.defaults"] = {},
+                    ["core.norg.concealer"] = {},
+                    ["core.keybinds"] = {
+                        config = {
+                            hook = function(keybinds)
+                                keybinds.remap_event("norg", "n", "md", "core.norg.qol.todo_items.todo.task_done")
+                                keybinds.remap_event("norg", "n", "mu", "core.norg.qol.todo_items.todo.task_undone")
+                                keybinds.remap_event("norg", "n", "mp", "core.norg.qol.todo_items.todo.task_pending")
+                                keybinds.remap_event("norg", "n", "mn", "core.norg.dirman.new.note")
+                            end,
+                        }
+                    },
+                    ["core.norg.dirman"] = {
+                        config = {
+                            workspaces = {
+                                notes = "~/notes/notes",
+                                work = "~/notes/work",
+                            },
+                        },
+                    },
+                },
+            }
+        end,
+        run = ":Neorg sync-parsers",
+        requires = "nvim-lua/plenary.nvim",
+    }
+
   -- Completion plugins
   use "hrsh7th/nvim-cmp" -- The completion plugin
   use "hrsh7th/cmp-buffer" -- buffer completions
