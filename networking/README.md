@@ -23,8 +23,8 @@
 | A | 1.0.0.0 - 126.255.255.255 | 255.0.0.0 | 10.0.0.0 - 10.255.255.255 |
 | B | 128.0.0.0 - 191.255.255.255 | 255.255.0.0 | 172.16.0.0 to 172.31.255.255 |
 | C | 192.0.0.0 - 223.255.255.255 | 255.255.255.0 | 192.168.0.0 to 192.168.255.255 |
-| D | 224.0.0.0 to 239.255.255.255 | Multicast, no mask |  |
-| E | 240.0.0.0 to 255.255.255.255 | Reserved, no mask |  |
+| D | 224.0.0.0 - 239.255.255.255 | Multicast, no mask |  |
+| E | 240.0.0.0 - 255.255.255.255 | Reserved, no mask |  |
 
 <br>
 
@@ -102,11 +102,11 @@ Broadcast  = 172.16.1_1111111.11111111 = 172.16.25547.255
 ###### Subdividing subnet
 
 - Includes "stealing" bits from host portion of an address
-- Allocating "stoled" bits to network portion of a new address
+- Allocating "stolen" bits to network portion of a new address
 - This creates multiple subnets from existing subnet
-- Determine of hosts with formula: hosts <= 2^n - 2
+- Determine number of hosts with formula: hosts <= 2^n - 2
 - n is number of bits required
-- Minus  2 is for broadcast (all ones) and subnet address (all zeros)
+- Minus 2 is for broadcast (all ones) and subnet address (all zeros)
 - Count host bits from right to left
 - Determine number of networks with formula: networks <= 2^n
 - Count network bits from left to right
@@ -171,9 +171,11 @@ Last_network   = 10.128.1111111_0.00000000 = 10.128.254.0/23
 
 ```sh
 # Configure Router
-$enable # go to privileged mode
+# Default mode is user mode, denoted by ">"
+# To see all available commands in current mode, run $?
+$enable # go to privileged mode. Denoted by "#"
 $show ip interface brief # see all interfaces
-$configure terminal # go to global config mode
+$configure terminal # go to global config mode. Denoted by (config)#
 $interface gigabitEthernet 0/0/0 # configure interface 0/0/0 mode
 $ip address 10.1.1.1 255.255.255.0 # configure ip and mask
 $no shutdown # enable interface
