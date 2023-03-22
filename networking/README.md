@@ -4,6 +4,7 @@
 
 ## Table of content
 
+- [TCP/IP Stack](#tcp-ip-stack)
 - [IP Addresses](#ip-addresses)
     - [IPv4 Classes](#ipv4-classes)
     - [Special IPv4 Addresses](#special-ipv4-addresses)
@@ -13,6 +14,18 @@
 - [Packet Tracer](#packet-tracer)
     - [Configuration](#configuration)
 
+### TCP-IP Stack
+#### Data Link Layer
+- Data link is second layer, operates on MAC addresses and defines comunication between devices inside local network
+- PDO is called frame and consists of header and trailer
+- Header contains source and destination MAC address and type of the layer above (ipv4, ipv6)
+- Trailer contains 4 bytes for CRC (Cyclic Reduncancy Check)
+- Switch is layer 2 device
+- One of the protocols that operate on this layer is ARP (Address resolution protocol)
+- ARP is used to discover MAC addresses of device with known layer 3 IP address
+- ARP request is broadcast, and we wait for correct device to reply
+- Broadcast is indicated by putting FFFF.FFFF.FFFF as a destination MAC address
+- ARP reply is unicast, and its destination is host that sent ARP request
 
 ### IP Addresses
 
@@ -196,4 +209,9 @@ $exit # back to global config mode
 $end # back to privileged mode
 $wr # save config with short wr
 
+# Switch commands
+# To view MAC address table use (from privileged mode)
+# SW1#show mac address-table
+# To clear MAC address table use (from privileged mode)
+# SW1#clear mac address-table dynamic
 ```
