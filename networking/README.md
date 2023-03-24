@@ -15,7 +15,12 @@
     - [Configuration](#configuration)
 
 ### TCP-IP Stack
-#### Data Link Layer
+#### Network (Third Layer)
+- Provides connectivity between hosts on different networks
+- Provides logical addressing (IP)
+- Provides path selection between source and destination
+- Routers operate on this layer
+#### Data Link Layer (Second Layer)
 - Data link is second layer, operates on MAC addresses and defines comunication between devices inside local network
 - PDO is called frame and consists of header and trailer
 - Header contains source and destination MAC address and type of the layer above (ipv4, ipv6)
@@ -119,7 +124,8 @@ Broadcast  = 172.16.1_1111111.11111111 = 172.16.25547.255
 - This creates multiple subnets from existing subnet
 - Determine number of hosts with formula: hosts <= 2^n - 2
 - n is number of bits required
-- Minus 2 is for broadcast (all ones) and subnet address (all zeros)
+- Minus 2 is for broadcast (all ones) network address (all zeros)
+- Network address has host portion of all zeros and can't assigned to a host
 - Count host bits from right to left
 - Determine number of networks with formula: networks <= 2^n
 - Count network bits from left to right
