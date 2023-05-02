@@ -94,18 +94,18 @@ return packer.startup(function(use)
             require('neorg').setup {
                 load = {
                     ["core.defaults"] = {},
-                    ["core.norg.concealer"] = {},
+                    ["core.concealer"] = {},
                     ["core.keybinds"] = {
                         config = {
                             hook = function(keybinds)
-                                keybinds.remap_event("norg", "n", "md", "core.norg.qol.todo_items.todo.task_done")
-                                keybinds.remap_event("norg", "n", "mu", "core.norg.qol.todo_items.todo.task_undone")
-                                keybinds.remap_event("norg", "n", "mp", "core.norg.qol.todo_items.todo.task_pending")
-                                keybinds.remap_event("norg", "n", "mn", "core.norg.dirman.new.note")
+                                keybinds.remap_event("norg", "n", "md", "core.qol.todo_items.todo.task_done")
+                                keybinds.remap_event("norg", "n", "mu", "core.qol.todo_items.todo.task_undone")
+                                keybinds.remap_event("norg", "n", "mp", "core.qol.todo_items.todo.task_pending")
+                                keybinds.remap_event("norg", "n", "mn", "core.dirman.new.note")
                             end,
                         }
                     },
-                    ["core.norg.dirman"] = {
+                    ["core.dirman"] = {
                         config = {
                             workspaces = {
                                 notes = "~/notes/notes",
