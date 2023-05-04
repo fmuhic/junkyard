@@ -1,0 +1,13 @@
+version: "3"
+
+services:
+  neo4j:
+    image: neo4j
+    ports:
+      - '7474:7474'
+      - '7687:7687'
+    volumes:
+      - ./db/neo4j_data:/data
+    environment:
+      - NEO4J_AUTH=none
+
