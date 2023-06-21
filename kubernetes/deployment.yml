@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: simple-app-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: simple-app
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: simple-app
+        tier: backend
+    spec:
+      containers:
+        - name: first-node
+          image: pathToImageOnDockerhub
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            periodSeconds: 10
+            initialDelaySeconds: 5
+        # - name: second
+        #   image: pathToSecondImageOnDockerhub
