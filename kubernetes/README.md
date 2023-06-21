@@ -55,5 +55,5 @@
     # Clean up resources
     $kubectl delete -f=deployment.yml -f=service.yml
     
-    # Both deplyoment.yml and service.yml into same file but had to be be separeted with "---"
+    # Both deplyoment.yml and service.yml can be merged into same file but had to be be separeted with line containing "---"
 ```
