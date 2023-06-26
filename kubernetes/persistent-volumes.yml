@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+   name: host-pv
+specs:
+  capacity:
+    storage: 1Gi
+  volumeMode: Filesystem # Other one being Block, see docs
+  accessModes:
+    - ReadWriteOnce # This means volume can be claimed by all pods on only one node
+    # - ReadOnlyMany # Read only, but can be claimed by multiple pods from multiple nodes
+    # - ReadWriteMany
+  hostPath: # This hostPath is different than regular hostPath volume
+    path: /home/user/data 
+    type: DirectoryOrCreate
+

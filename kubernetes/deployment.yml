@@ -17,11 +17,24 @@ spec:
       containers:
         - name: first-node
           image: pathToImageOnDockerhub
+          volumeMounts:
+            - mounthPath: /path/inside/container
+              name: production-storage
           livenessProbe:
             httpGet:
-              path: /
+              path: /health
               port: 8080
             periodSeconds: 10
             initialDelaySeconds: 5
         # - name: second
         #   image: pathToSecondImageOnDockerhub
+      volumes:
+        - name: pod-storage
+          emptyDir: {} # Creates empty dir when pod starts, and keeps it alive until pod dies
+        - name: host-storage
+          hostPath: # Maps dir on host machine, good if we run pods only on one machine
+            path: /home/user/data 
+            type: DirectoryOrCreate
+        - name: production-storage
+          persistentVolumeClaim:
+            claimName: host-pvc
