@@ -3,7 +3,7 @@ kind: Deployment
 metadata: 
   name: simple-app-deployment
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: simple-app
@@ -16,9 +16,9 @@ spec:
     spec:
       containers:
         - name: first-node
-          image: pathToImageOnDockerhub
+          image: fmuhic/fudo:v1
           volumeMounts:
-            - mounthPath: /path/inside/container
+            - mountPath: /data
               name: production-storage
           livenessProbe:
             httpGet:
@@ -33,7 +33,7 @@ spec:
           emptyDir: {} # Creates empty dir when pod starts, and keeps it alive until pod dies
         - name: host-storage
           hostPath: # Maps dir on host machine, good if we run pods only on one machine
-            path: /home/user/data 
+            path: /data 
             type: DirectoryOrCreate
         - name: production-storage
           persistentVolumeClaim:
