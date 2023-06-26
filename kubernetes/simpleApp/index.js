@@ -19,7 +19,7 @@ app.get('/error', (req, res) => {
 app.get('/content', (req, res) => {
     let lines = []; 
     try {
-        const content = fs.readFileSync('file.txt', 'utf-8');
+        const content = fs.readFileSync('/data/file.txt', 'utf-8');
         lines = content.split(/\r?\n/).filter(l => l != "")
     } catch (err) {
         console.error(err);
@@ -33,7 +33,7 @@ app.get('/content', (req, res) => {
 app.post('/content', (req, res) => {
     try {
         const line = req.body.line + "\n";
-        fs.writeFileSync('file.txt', line, { flag: 'a+' });
+        fs.writeFileSync('/data/file.txt', line, { flag: 'a+' });
         res.sendStatus(201);
     } catch (err) {
         console.error(err);
