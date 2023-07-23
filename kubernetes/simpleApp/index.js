@@ -7,9 +7,14 @@ app.use(bodyParser.json());
 
 const port = 8080;
 const serverId = process.env.SERVER_ID || "DEFAULT_SERVER";
+const contentFile = process.env.CONTENT_FILE
 
 app.get('/', (req, res) => {
     res.send(`Welcome from server ${serverId}`);
+})
+
+app.get('/health', (req, res) => {
+    res.sendStatus(200);
 })
 
 app.get('/error', (req, res) => {
@@ -17,26 +22,22 @@ app.get('/error', (req, res) => {
 })
 
 app.get('/content', (req, res) => {
-    let lines = []; 
     try {
-        const content = fs.readFileSync('/data/file.txt', 'utf-8');
-        lines = content.split(/\r?\n/).filter(l => l != "")
+        const content = fs.readFileSync(contentFile, 'utf-8');
+        res.json({
+            lines:content.split(/\r?\n/).filter(l => l != "") 
+        });
     } catch (err) {
-        console.error(err);
+        res.json({ lines: [] });
     }
-
-    res.json({
-        lines: lines
-    })
 })
 
 app.post('/content', (req, res) => {
     try {
         const line = req.body.line + "\n";
-        fs.writeFileSync('/data/file.txt', line, { flag: 'a+' });
+        fs.writeFileSync(contentFile, line, { flag: 'a+' });
         res.sendStatus(201);
     } catch (err) {
-        console.error(err);
         res.sendStatus(500);
     }
 })

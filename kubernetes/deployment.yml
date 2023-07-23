@@ -17,6 +17,9 @@ spec:
       containers:
         - name: first-node
           image: pathToImageOnDockerhub
+          env:
+            - name: CONTENT_FILE
+              value: /data/file.txt
           volumeMounts:
             - mounthPath: /path/inside/container
               name: production-storage

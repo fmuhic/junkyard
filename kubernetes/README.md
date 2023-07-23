@@ -16,12 +16,14 @@
     $minikube status
     $minikube dashboard
 
-    # Create deployment
+    # Create deployment object
+    # This is a Kubernetes object that can create, manage and autoscale a set of identical pods
     $kubectl create deployment simple-app --image=pathToImageOnDockerhub
     $kubectl get deployments
     $kubectl get pods
 
     # Create service (types are ClusterIp, NodePort, LoadBancer )
+    # Service object exposes pods to other pods in a clust or outside world
     $kubectl expose deployment simple-app --type=LoadBalancer --port=8080
     $kubectl get services
     $minikube service simple-app
