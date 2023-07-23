@@ -6,6 +6,7 @@ spec:
   capacity:
     storage: 1Gi
   volumeMode: Filesystem # Other one being Block, see docs
+  storageClassName: standard
   accessModes:
     - ReadWriteOnce # This means volume can be claimed by all pods on only one node
     # - ReadOnlyMany # Read only, but can be claimed by multiple pods from multiple nodes

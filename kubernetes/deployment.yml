@@ -16,10 +16,15 @@ spec:
     spec:
       containers:
         - name: first-node
-          image: fmuhic/fudo:v1
+          image: fmuhic/fudo:v4
           env:
             - name: CONTENT_FILE
               value: /data/file.txt
+            - name: SERVER_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: data-env
+                  key: server
           volumeMounts:
             - mountPath: /data
               name: production-storage

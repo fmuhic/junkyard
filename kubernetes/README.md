@@ -41,6 +41,14 @@
     $kubectl rollout undo deployment/simple-app
     $kubectl rollout undo deployment/simple-app --to-revision=1
 
+    # Inspect
+    #kubectl get pods
+    #kubectl get deployments
+    #kubectl get services
+    #kubectl get pv # persistent volumes
+    #kubectl get pvc # persistent volume claims
+    #kubectl get configmap
+
     # Cleanup
     $kubectl delete service simple-app
     $kubectl delete deployment simple-app
