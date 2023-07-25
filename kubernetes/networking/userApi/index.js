@@ -36,8 +36,7 @@ app.post('/signup', async (req, res) => {
         res.status(201).json({ message: 'User created!' });
     } catch (err) {
         console.log(err);
-        return res.status(500)
-            .json({ message: 'Unable to create new user.' });
+        res.status(500).json({ message: 'Unable to create new user.' });
     }
 })
 
@@ -61,8 +60,7 @@ app.post('/login', async (req, res) => {
         });
     } catch (err) {
         console.log(err);
-        return res.status(500)
-            .json({ message: 'Unable to verify user.' });
+        res.status(500).json({ message: 'Unable to verify user.' });
     }
 })
 

@@ -6,3 +6,7 @@ services:
     build: ./userApi
     ports: 
       - "8080:8080"
+  task:
+    build: ./taskApi
+    ports: 
+      - "8081:8080"

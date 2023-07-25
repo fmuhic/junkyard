@@ -22,23 +22,30 @@ app.get('/token/create/:password', async (req, res) => {
     const password = req.params.password;
     try {
         const token = password + '_sha256'
-        return res.status(200).json({ token: token });
+        res.status(200).json({ token: token });
     } catch (err) {
         console.log(err);
-        return res.status(500)
-            .json({ message: 'Unable to create new user' });
+        res.status(500).json({ message: 'Unable to create new user' });
     }
 })
 
 app.get('/token/get/:password', async (req, res) => {
     const password = req.params.password;
     try {
-        const token = password + "_sha256"
-        return res.status(200).json({ token: token });
+        const token = password + '_sha256'
+        res.status(200).json({ token: token });
     } catch (err) {
         console.log(err);
-        return res.status(500)
-            .json({ message: 'Unable to create new user' });
+        res.status(500).json({ message: 'Unable to create new user' });
+    }
+})
+
+app.get('/token/verify/:token', async (req, res) => {
+    const token = req.params.token;
+    if (token.endsWith('_sha256')) {
+        res.sendStatus(200)
+    } else {
+        res.sendStatus(401)
     }
 })
 
