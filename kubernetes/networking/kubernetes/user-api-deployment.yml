@@ -9,7 +9,7 @@ spec:
       app: user-api
   template:
     metadata:
-      label:
+      labels:
         app: user-api
     spec:
       containers:
