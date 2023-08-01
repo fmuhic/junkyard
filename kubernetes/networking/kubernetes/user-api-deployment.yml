@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-api-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-api
+  template:
+    metadata:
+      label:
+        app: user-api
+    spec:
+      containers:
+        - name: user-api-container
+          image: fmuhic/kub-user-api
