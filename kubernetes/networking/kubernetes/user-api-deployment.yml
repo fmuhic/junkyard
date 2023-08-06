@@ -14,9 +14,10 @@ spec:
     spec:
       containers:
         - name: user-api-container
-          image: fmuhic/kub-user-api:2
-          env:
-            - name: AUTH_ADDRESS
-              value: localhost
-        - name: user-auth-container
-          image: fmuhic/kub-auth-api:1
+          image: fmuhic/kub-user-api:4
+          # env:
+          #   - name: AUTH_ADDRESS
+          #     value: localhost
+        # This is in case we want auth in the same pod as user api
+        # - name: user-auth-container
+        #   image: fmuhic/kub-auth-api:1

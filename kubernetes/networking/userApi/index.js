@@ -32,7 +32,12 @@ app.post('/signup', async (req, res) => {
     }
 
     try {
-        await axios.get(`http://${process.env.AUTH_ADDRESS}/token/create/` + password);
+        // Most common way to load balance is to use builtin kubernets core dns resolver
+        // "default" is a kubernets namespace
+        // await axios.get(`http://auth-api-service.default/token/create/` + password);
+        
+        // This env is automatically injected by kubernetes: AUTH_SERVICE_SERVICE_HOST
+        await axios.get(`http://${process.env.AUTH_API_SERVICE_SERVICE_HOST}/token/create/` + password);
         res.status(201).json({ message: 'User created!' });
     } catch (err) {
         console.log(err);
@@ -53,7 +58,7 @@ app.post('/login', async (req, res) => {
     }
 
     try {
-        const authResponse = await axios.get(`http://${process.env.AUTH_ADDRESS}/token/get/` + password);
+        const authResponse = await axios.get(`http://${process.env.AUTH_API_SERVICE_SERVICE_HOST}/token/get/` + password);
         res.status(201).json({
             username: email,
             token: authResponse.data.token

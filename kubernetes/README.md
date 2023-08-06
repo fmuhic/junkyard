@@ -66,4 +66,11 @@
     $kubectl delete -f=deployment.yml -f=service.yml
     
     # Both deplyoment.yml and service.yml can be merged into same file but had to be be separeted with line containing "---"
+
+```
+
+#### Kubernetes Env Variables
+```console
+    service_name_SERVICE_HOST # AUTH_API_SERVICE_SERVICE_HOST
+
 ```

@@ -23,7 +23,7 @@ app.get('/tasks', async (req, res) => {
     const token = req.get('Token')
 
     try {
-        let verification = await axios.get('http://auth/token/verify/' + token);
+        let verification = await axios.get('http://auth-api-service.default/token/verify/' + token);
         res.status(200).json({ tasks: ['Task 1', 'Task 2'] });
     } catch (err) {
         console.log(err);
