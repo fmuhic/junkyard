@@ -32,7 +32,7 @@ app.post('/signup', async (req, res) => {
     }
 
     try {
-        await axios.get('http://auth/token/create/' + password);
+        await axios.get(`http://${process.env.AUTH_ADDRESS}/token/create/` + password);
         res.status(201).json({ message: 'User created!' });
     } catch (err) {
         console.log(err);
@@ -53,7 +53,7 @@ app.post('/login', async (req, res) => {
     }
 
     try {
-        const authResponse = await axios.get('http://auth/token/get/' + password);
+        const authResponse = await axios.get(`http://${process.env.AUTH_ADDRESS}/token/get/` + password);
         res.status(201).json({
             username: email,
             token: authResponse.data.token

@@ -14,4 +14,9 @@ spec:
     spec:
       containers:
         - name: user-api-container
-          image: fmuhic/kub-user-api
+          image: fmuhic/kub-user-api:2
+          env:
+            - name: AUTH_ADDRESS
+              value: localhost
+        - name: user-auth-container
+          image: fmuhic/kub-auth-api:1
