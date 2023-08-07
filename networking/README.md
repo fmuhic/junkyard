@@ -15,11 +15,6 @@
     - [Configuration](#configuration)
 
 ### TCP-IP Stack
-#### Network (Third Layer)
-- Provides connectivity between hosts on different networks
-- Provides logical addressing (IP)
-- Provides path selection between source and destination
-- Routers operate on this layer
 #### Data Link Layer (Second Layer)
 - Data link is second layer, operates on MAC addresses and defines comunication between devices inside local network
 - PDO is called frame and consists of header and trailer
@@ -31,6 +26,11 @@
 - ARP request is broadcast, and we wait for correct device to reply
 - Broadcast is indicated by putting FFFF.FFFF.FFFF as a destination MAC address
 - ARP reply is unicast, and its destination is host that sent ARP request
+#### Network (Third Layer)
+- Provides connectivity between hosts on different networks
+- Provides logical addressing (IP)
+- Provides path selection between source and destination
+- Routers operate on this layer
 
 ### IP Addresses
 
@@ -184,9 +184,7 @@ Last_network   = 10.128.1111111_0.00000000 = 10.128.254.0/23
 
 ### Packet Tracer
 
-#### Configuration
-
-###### Useful commands
+##### Useful commands
 
 ```sh
 # Configure Router
@@ -202,6 +200,9 @@ $exit # back to global config mode
 $hostname R1 # set hostname
 $end # back to privileged mode
 $copy running-config startup-config # save config or just use wr
+# Router notes:
+# Router interfaces have shutdown command applied by default,
+# they will be in administratively down/down state by default
 
 # Configure Switch
 $en # go to privileged mode
@@ -214,7 +215,13 @@ $ip address 192.168.1.61 255.255.255.192
 $exit # back to global config mode
 $end # back to privileged mode
 $wr # save config with short wr
+# Switch notes:
+# Switch interfaces do not have shutdown command applied by default,
+# they will be in up/up state if connected to other device or in
+# down/down state if not connected to other device
 
+#Interfaces
+$show intefaces status
 # Switch commands
 # To view MAC address table use (from privileged mode)
 # SW1#show mac address-table
