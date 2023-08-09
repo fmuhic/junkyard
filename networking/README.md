@@ -200,6 +200,7 @@ $exit # back to global config mode
 $hostname R1 # set hostname
 $end # back to privileged mode
 $copy running-config startup-config # save config or just use wr
+$show ip route # show routers routing table
 # Router notes:
 # Router interfaces have shutdown command applied by default,
 # they will be in administratively down/down state by default
@@ -227,4 +228,36 @@ $show intefaces status
 # SW1#show mac address-table
 # To clear MAC address table use (from privileged mode)
 # SW1#clear mac address-table dynamic
+```
+
+### Routing
+
+##### Routing Table
+
+- Routers store information about destinations they know in routing table
+- Routing table is set of instructions for router telling it where to forward the packet
+- When routers receive packet they pick most specific route and forward the packet
+- If there is no entry in routing table, packet is dropped
+- If the destination is directly connected (Connected Route) then packet is send directly to that destination
+- If the destination is routers own addres (Local Route) then router will consume the packet
+- When we configure routers interface and enable it, 2 routers are automatically added to routing table
+- Connected Route (C letter in routing table)
+- If interface ip is 192.168.1.1/24 then connected route will be whole subnet 192.168.1.0/24
+- Local Route (L letter in routing table)
+- If interface ip is 192.168.1.1/24 then local route will be 192.168.1.1/32
+
+##### Static routes
+
+```sh
+# From global config mode
+$ip route ip-address netmask next-hop
+$ip route ip-address netmask exit-interface
+$ip route ip-address netmask exit-interface next-hop
+```
+
+##### Default route
+
+```sh
+# From global config mode
+$ip route 0.0.0.0 0.0.0.0 ip-address
 ```
