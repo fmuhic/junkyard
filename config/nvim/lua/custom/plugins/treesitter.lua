@@ -1,10 +1,9 @@
-local status_ok, configs = pcall(require, "nvim-treesitter.configs")
-if not status_ok then
-    return
-end
-
-configs.setup {
-  ensure_installed = {
+return {
+  "nvim-treesitter/nvim-treesitter",
+  build = ":TSUpdate",
+  lazy = false,
+  opts = {
+    ensure_installed = {
       "lua",
       "bash",
       "diff",
@@ -29,6 +28,7 @@ configs.setup {
       "make",
       "markdown",
       "ninja",
+      "norg",
       "php",
       "phpdoc",
       "python",
@@ -49,18 +49,18 @@ configs.setup {
       "css",
       "c",
       "cpp",
-      "rust",
-  },
-  sync_install = false,
-  ignore_install = { "" },
-  autopairs = {
-    enable = true
-  },
-  highlight = {
-    enable = true,
-    disable = { "" },
-    additional_vim_regex_highlighting = true,
-
-  },
-  indent = { enable = true, disable = { "yaml" } },
+      "rust"
+    },
+    autopairs = {
+      enable = true
+    },
+    highlight = {
+      enable = true,
+      additional_vim_regex_highlighting = true,
+    },
+    indent = {
+      enable = true,
+      disable = { "yaml" }
+    }
+  }
 }

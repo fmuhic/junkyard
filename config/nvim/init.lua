@@ -1,14 +1,27 @@
 require "custom.options"
-require "custom.auto_cmd"
-require "custom.plugins"
-require "custom.telescope"
 require "custom.keymaps"
-require "custom.completion"
-require "custom.treesitter"
-require "custom.lsp"
-require "custom.file_tree"
-require "custom.autopairs"
-require "custom.colorscheme"
-require "custom.status_line"
-require "custom.comment"
-require "custom.git"
+require "custom.auto_cmd"
+
+
+-- Lazy
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    lazypath,
+  })
+end
+
+vim.opt.rtp:prepend(lazypath)
+
+local options = {}
+require("lazy").setup("custom.plugins", options)
+
+
+-- Colorscheme
+vim.cmd[[colorscheme tokyonight-storm]]

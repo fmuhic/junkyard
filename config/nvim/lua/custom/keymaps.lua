@@ -150,20 +150,6 @@ keymap("t", "<C-l>l", "<C-\\><C-N><C-w>l", term_opts)
 --------------- Plugin ---------------
 --------------------------------------
 
--- Telescope fuzzy bindings
-local telescope = require('telescope.builtin')
-
-vim.keymap.set('n', '<Space>b', telescope.lsp_references, opts)
-vim.keymap.set('n', '<Space>n', telescope.lsp_definitions, opts)
-vim.keymap.set("n", "<Space>o", telescope.live_grep, opts)
-keymap("n", "<Space>p", "<Cmd>lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({ previewer = false }))<Cr>", opts)
-keymap("n", "<Space>q", "<Cmd>lua require'telescope'.extensions.project.project{}<CR>", opts)
-keymap("n", "<leader>d", "<cmd>lua vim.diagnostic.open_float({ border = 'rounded' })<Cr>", opts)
-keymap("n", "<leader>D>", "<Cmd>lua require'telescope.builtin'.diagnostics(require('telescope.themes').get_dropdown())<Cr>", opts)
-
--- Nvimtree
-keymap("n", ";", ":NvimTreeToggle<Cr>", opts)
-
 -- Neorg
 keymap("n", "mm", ":Neorg workspace notes<Cr>", opts)
 keymap("n", "mw", ":Neorg workspace work<Cr>", opts)
