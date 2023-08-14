@@ -1,8 +1,5 @@
 return {
   "nvim-tree/nvim-tree.lua",
-  after = {
-    "kyazdani42/nvim-web-devicons"
-  },
   opts = {
     disable_netrw = true,
     hijack_netrw = true,

@@ -1,8 +1,5 @@
 return {
   'nvim-lualine/lualine.nvim',
-  after = {
-"kyazdani42/nvim-web-devicons"
-  },
   opts = {
     options = {
       icons_enabled = true,
