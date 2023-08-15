@@ -100,6 +100,3 @@ end
 -- Treat dash separated words as one (one-word)
 vim.cmd [[set iskeyword+=-]]
 vim.cmd [[set guicursor=i:block]]
-
--- Disable due to bug in Neorg
-vim.g.polyglot_disabled = {'ftdetect'}

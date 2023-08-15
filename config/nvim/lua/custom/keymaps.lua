@@ -106,14 +106,10 @@ keymap("v", ">", ">gv", opts)
 keymap("v", "p", '"_dP', opts)
 
 -- Copy to clipboard
-keymap("v", "<leader>y", "\"+y", opts)
-keymap("v", "<leader>Y", "\"+yg_", opts)
-keymap("v", "<leader>yy", "\"+yy", opts)
+keymap("v", "<C-c>", "\"+y", opts)
 
 -- Paste from clipboard
-keymap("v", "<leader>p", "\"+p", opts)
-keymap("v", "<leader>P", "\"+P", opts)
-
+keymap("v", "<C-p>", "\"+p", opts)
 
 
 
