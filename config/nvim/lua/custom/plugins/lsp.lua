@@ -6,9 +6,6 @@ return {
     "simrat39/rust-tools.nvim"
   },
   config = function()
-    require("mason").setup()
-    require("mason-lspconfig").setup()
-
     local config = require("custom.plugins.lsp_servers.config")
     config.initialize()
 

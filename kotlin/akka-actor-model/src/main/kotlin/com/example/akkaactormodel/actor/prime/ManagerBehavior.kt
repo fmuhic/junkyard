@@ -1,4 +1,4 @@
-package com.example.akkaactormodel.actor
+package com.example.akkaactormodel.actor.prime
 
 import akka.actor.typed.Behavior
 import akka.actor.typed.javadsl.AbstractBehavior

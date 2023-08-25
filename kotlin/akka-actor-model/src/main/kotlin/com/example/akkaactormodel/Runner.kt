@@ -1,6 +1,9 @@
 package com.example.akkaactormodel
 
 import akka.actor.typed.ActorSystem
+import com.example.akkaactormodel.actor.prime.InstructionManagerCommand
+import com.example.akkaactormodel.actor.prime.ManagerBehavior
+import com.example.akkaactormodel.actor.prime.ManagerCommand
 import com.example.akkaactormodel.actor.SimpleBehavior
 import com.example.akkaactormodel.classic.MultiThreadedPrimeGenerator
 import com.example.akkaactormodel.classic.SingleThreadedPrimeGenerator
@@ -15,14 +18,21 @@ class Runner(
 ) {
     @EventListener(ApplicationReadyEvent::class)
     fun start() {
-        // startClassic()
-        startActor()
+//        startClassic()
+//        startSimpleActor()
+        startPrimeNumberActor()
     }
 
-    private fun startActor() {
+    private fun startPrimeNumberActor() {
+        val primeManager: ActorSystem<ManagerCommand> = ActorSystem.create(ManagerBehavior.create(), "PrimeManager")
+        primeManager.tell(InstructionManagerCommand("start"))
+    }
+
+    private fun startSimpleActor() {
         val simpleActorSystem: ActorSystem<String> = ActorSystem.create(SimpleBehavior.create(), "SimpleActorSystem")
-        simpleActorSystem.tell("hello actor")
-        simpleActorSystem.tell("I am your father")
+        simpleActorSystem.tell("say hello")
+        simpleActorSystem.tell("who are you")
+        simpleActorSystem.tell("create child")
     }
 
     private fun startClassic() {
