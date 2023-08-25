@@ -13,8 +13,6 @@ void heap_free(void *ptr) {
 
 int main() {
     char x[] = "hello world";
-    int i = 0;
-    printf("%i\n", i);
     printf("%s\n", x);
     return 0;
 }

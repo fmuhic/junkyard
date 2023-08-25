@@ -8,5 +8,11 @@ return {
           package_uninstalled = "✗"
       }
     }
-  }
+  },
+    ensure_installed = {
+      "clangd",
+      "lua_ls",
+      "pyright",
+      "rust_analyzer"
+    }
 }
