@@ -14,7 +14,12 @@
 - [Packet Tracer](#packet-tracer)
     - [Configuration](#configuration)
 
+<br>
+
 ### TCP-IP Stack
+
+<br>
+
 #### Data Link Layer (Second Layer)
 - Data link is second layer, operates on MAC addresses and defines comunication between devices inside local network
 - PDO is called frame and consists of header and trailer
@@ -32,7 +37,11 @@
 - Provides path selection between source and destination
 - Routers operate on this layer
 
+<br>
+
 ### IP Addresses
+
+<br>
 
 #### IPv4 Classes
 
@@ -67,16 +76,12 @@
 - For address 10.1.1.1/24, network portion is 10.1.1 and host portion is 1.
 - Devices 10.1.1.1 and 10.1.2.1 belong to same subnet if mask is /16. If mask is /24 then devices are on different subnet
 
-<br>
-
 #### CIDR
 
 - Classless Inter-Domain Routing
 - Replaces classful IP addresses
 - Variable length subnet mask allows more flexibility
 - Example: 10.0.0.0/20 (network is 20 bits, 12 bits is reserved for hosts)
-
-<br>
 
 #### Subnetting
 
@@ -181,8 +186,11 @@ Fourth_network = 10.128.1100011_0.00000000 = 10.128.198.0/23
 Last_network   = 10.128.1111111_0.00000000 = 10.128.254.0/23 
 
 ```
+<br>
 
 ### Packet Tracer
+
+<br>
 
 ##### Useful commands
 
@@ -195,15 +203,18 @@ $show ip interface brief # see all interfaces
 $configure terminal # go to global config mode. Denoted by (config)#
 $interface gigabitEthernet 0/0/0 # configure interface 0/0/0 mode
 $ip address 10.1.1.1 255.255.255.0 # configure ip and mask
+
+# Router interfaces have shutdown command applied by default,
+# they will be in administratively down/down state by default
 $no shutdown # enable interface
 $exit # back to global config mode
 $hostname R1 # set hostname
 $end # back to privileged mode
 $copy running-config startup-config # save config or just use wr
+
+# Static routes
 $show ip route # show routers routing table
-# Router notes:
-# Router interfaces have shutdown command applied by default,
-# they will be in administratively down/down state by default
+$ip route 192.168.3.0 255.255.255.0 192.168.13.3 # set ip route
 
 # Configure Switch
 $en # go to privileged mode
@@ -230,7 +241,11 @@ $show intefaces status
 # SW1#clear mac address-table dynamic
 ```
 
+<br>
+
 ### Routing
+
+<br>
 
 ##### Routing Table
 
@@ -261,3 +276,78 @@ $ip route ip-address netmask exit-interface next-hop
 # From global config mode
 $ip route 0.0.0.0 0.0.0.0 ip-address
 ```
+
+<br>
+
+### Life of a Packet
+
+<br>
+
+```mermaid
+graph LR
+A[PC1] --> B[Switch1] --> C[Router1] --> D[Router2] --> E[Router4] --> F[Switch2] --> G[PC2]
+C[Router1] --> H[Router3] --> E[Router4]
+```
+<br>
+
+If we want to send request from PC1 to PC2 following things need to happen:
+- Since PC1 and PC2 are not in the same subnet, PC1 sends an ARP requet to learn MAC address of its default gateway (Router 1 is configured to be default gateway of PC1)
+- Request is a broadcast with fileds:
+```sh
+    srcIpAddress: "ip of PC1"
+    destIpAddress: "ip of Router1"
+    srcMacAddress: "mac of PC1"
+    destMacAddress: ffff.ffff.ffff # all ones because its broadcast
+```
+- Switch1 will flud request on all ports, and it will be discarded by everyone in local network except for Router1
+- Router 1 will respond with unicast request to PC1 with fields:
+```sh
+    srcIpAddress: "ip of Router1"
+    destIpAddress: "ip of PC1"
+    srcMacAddress: "mac of Router1"
+    destMacAddress: "mac address of PC1"
+```
+- During these communications Switch1 will learn MAC addresses of both PC1 and Router1
+- Now that PC1 knows MAC address of its default gateway, it will send request to Router1 with following fields:
+```sh
+    srcIpAddress: "ip of PC1"
+    destIpAddress: "ip of PC2"
+    srcMacAddress: "mac of PC1"
+    destMacAddress: "mac address of Router1"
+```
+- Router1 receives request, removes ethernet header and looks at destination IP in its routing table
+- It finds out that next hop is Router1
+- Since Router1 doesn't know MAC address of Router2, it again needs to use ARP protocol and sends following packet to Router2
+```sh
+    srcIpAddress: "ip of Router1"
+    destIpAddress: "ip of Router2"
+    srcMacAddress: "mac of Router1"
+    destMacAddress: ffff.ffff.ffff # all ones because its broadcast 
+```
+- Router2 will receive it and send back an unicast request to Router1 (with its own MAC address same as explained before).
+- Now that Router1 knows MAC address of Router2 it replaces destination MAC address in original request and send it to Router2:
+```sh
+    srcIpAddress: "ip of PC1"
+    destIpAddress: "ip of PC2"
+    srcMacAddress: "mac of Router1"
+    destMacAddress: "mac of Router2" 
+```
+- Router2 does the same thins as Router1 before
+- It finds out, from its routing table, that next hop is Router4
+- Since it doesn't know Router's 4 MAC address it has to use ARP
+- After receiving ARP response forwards the packet to Router4
+- After Router4 receives packet it removes ethernet headers and look for destination in its routing table
+- Since destination is directly connected to one of its interfaces, it will forward this packet to destination PC2
+- However, Router4 does now know the MAC address of PC2 so it again has to use APR, similar to first communication between PC1 and Router1
+- Now that Router4 knows MAC address of PC2 it will deliver original packet to it:
+```sh
+    srcIpAddress: "ip of PC1"
+    destIpAddress: "ip of PC2"
+    srcMacAddress: "mac of Router4"
+    destMacAddress: "mac of PC2" 
+```
+- Packet is delivered from PC1 to PC2
+- Important thing is that at layer 3 (IP layer) source and destination IP addresses never changed during the trip
+- Only thing that changed were MAC addresses of all hops
+- If we want to imediately send request back from PC2 to PC2, we won't need to do any ARP requests since all MAC addreses were resolved on previous request
+
