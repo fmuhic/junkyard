@@ -7,7 +7,7 @@ return {
       type = 'server',
       port = "${port}",
       executable = {
-        command = '/home/fudo/.local/share/nvim/mason/bin/codelldb',
+        command = os.getenv("HOME") .. '/.local/share/nvim/mason/bin/codelldb',
         args = {"--port", "${port}"},
         -- On windows you may have to uncomment this:
         -- detached = false,
