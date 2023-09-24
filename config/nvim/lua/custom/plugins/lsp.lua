@@ -33,6 +33,14 @@ return {
       config.options
     )
 
+    require("lspconfig")["tsserver"].setup(
+      vim.tbl_deep_extend(
+        "force",
+        require("custom.plugins.lsp_servers.tsserver"),
+        config.options
+      )
+    )
+
     -- Rust setup
     local rt = require("rust-tools")
 
