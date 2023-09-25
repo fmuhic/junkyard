@@ -332,7 +332,7 @@ If we want to send request from PC1 to PC2 following things need to happen:
     srcMacAddress: "mac of Router1"
     destMacAddress: "mac of Router2" 
 ```
-- Router2 does the same thins as Router1 before
+- Router2 does the same thing as Router1 before
 - It finds out, from its routing table, that next hop is Router4
 - Since it doesn't know Router's 4 MAC address it has to use ARP
 - After receiving ARP response forwards the packet to Router4
@@ -351,3 +351,76 @@ If we want to send request from PC1 to PC2 following things need to happen:
 - Only thing that changed were MAC addresses of all hops
 - If we want to imediately send request back from PC2 to PC2, we won't need to do any ARP requests since all MAC addreses were resolved on previous request
 
+
+
+### VLAN
+
+<br>
+
+- VLANs are configured on switch on per-interface basis
+- They logically separate end hosts at Layer 2
+- Although hosts are physically connected to the same switch (and are in same broadcast domain) we use VLANs to logically separate them
+- Switches do not forward traffic directly between VLANs
+- If we don't configure VLANs, all interfaces are in VLAN 1 (default)
+
+#### Access ports
+
+- Using the “Switchport mode access” command forces the port to be an access port while and any device plugged into this port will only be able to communicate with other devices that are in the same VLAN
+- Access ports are part of only one VLAN and normally used for terminating end devices likes PC, Laptop and printer
+- By default, an access port carries only one VLAN
+
+```sh
+    $show vlan brief
+
+    $interface range g1/0 - 3
+    $switchport mode access
+    $switchport access vlan 10
+    # % Access VLAN does not exist. Creating VLAN 10
+```
+
+#### Trunk ports
+
+- A trunk port can carry traffic in one or more VLANs on the same physical link.
+- Trunk ports differentiate VLANs by either adding a tag to the packet (802.1Q) or encapsulation the packet (ISL)
+- Trunk ports are used for switch-switch or switch-router communication
+- By default, a trunk interface can carry traffic for all VLANs
+
+```sh
+    $switchport trunk encapsulation ?
+    $switchport trunk encapsulation dot1q
+    $switchport mode trunk
+    $show interfaces trunk
+    $switchport trunk allowed vlan ?
+    $switchport trunk allowed vlan 10,30 # example
+```
+
+#### Router On a Stick (ROAS)
+
+- Used for inter-VLAN routing with only one physical interface (G0/0.10, G0/0.20, G0/0.30 ...)
+- In other words, its used to route between multiple VLANs using a single interface on router and switch
+- Switch interface is configured as regular trunk
+- Router is configured using subinterfaces. We configure the VLAN tag and IP address on each subinterface
+
+```sh
+    $interface g0/0
+    $no shutdown # make sure interface is enabled
+    $interface g0/0.10 # subinterface number does not have to match VLAN number, but its recommended
+    $enacapsulation dot1q 10 # if frame tagged with VLAN 10 arrives, router will behave as it arrived on interface g0/0.10, it will also tag all frames leaving g0/0.10 with VLAN 10 using dot1q
+    $ip address 192.168.1.62 255.255.255.192 # assign ip address to subinterface
+
+    $switchport mode trunk
+    $show interfaces trunk
+    $switchport trunk allowed vlan ?
+    $switchport trunk allowed vlan 10,30 # example
+```
+
+#### Inter VLAN routing via SVI (Switch Virtual Interfce)
+
+```sh
+    $ip routing # enables Layer 3 routing on a switch
+    $interface g0/1
+    $no switchport # this configures port to be "routed port" (Layer 3 port, not Layer 2/switchport)
+    $ip address 192.168.1.193 255.255.255.252 # assign ip to our port
+    $ip route 0.0.0.0 0.0.0.0 192.168.1.194 # set default route to Router to allow traffic out of network
+    $do show ip route
+```
