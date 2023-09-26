@@ -376,6 +376,10 @@ If we want to send request from PC1 to PC2 following things need to happen:
     $switchport mode access
     $switchport access vlan 10
     # % Access VLAN does not exist. Creating VLAN 10
+    $do show vlan brief
+    # To change name
+    $vlan 10
+    $name NEW_VLAN_NAME
 ```
 
 #### Trunk ports
@@ -392,6 +396,8 @@ If we want to send request from PC1 to PC2 following things need to happen:
     $show interfaces trunk
     $switchport trunk allowed vlan ?
     $switchport trunk allowed vlan 10,30 # example
+    $switchport trunk native vlan 1001 # set up default vlan on trunk
+    $do show interface trunk # see trunk config
 ```
 
 #### Router On a Stick (ROAS)
@@ -407,11 +413,6 @@ If we want to send request from PC1 to PC2 following things need to happen:
     $interface g0/0.10 # subinterface number does not have to match VLAN number, but its recommended
     $enacapsulation dot1q 10 # if frame tagged with VLAN 10 arrives, router will behave as it arrived on interface g0/0.10, it will also tag all frames leaving g0/0.10 with VLAN 10 using dot1q
     $ip address 192.168.1.62 255.255.255.192 # assign ip address to subinterface
-
-    $switchport mode trunk
-    $show interfaces trunk
-    $switchport trunk allowed vlan ?
-    $switchport trunk allowed vlan 10,30 # example
 ```
 
 #### Inter VLAN routing via SVI (Switch Virtual Interfce)
@@ -420,6 +421,7 @@ If we want to send request from PC1 to PC2 following things need to happen:
     $ip routing # enables Layer 3 routing on a switch
     $interface g0/1
     $no switchport # this configures port to be "routed port" (Layer 3 port, not Layer 2/switchport)
+    $ip routing # enable routing on switch
     $ip address 192.168.1.193 255.255.255.252 # assign ip to our port
     $ip route 0.0.0.0 0.0.0.0 192.168.1.194 # set default route to Router to allow traffic out of network
     $do show ip route
