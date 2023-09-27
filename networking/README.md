@@ -424,3 +424,34 @@ If we want to send request from PC1 to PC2 following things need to happen:
     $ip route 0.0.0.0 0.0.0.0 192.168.1.194 # set default route to Router to allow traffic out of network
     $do show ip route
 ```
+
+
+### Spaning Tree Protocol (STP)
+
+#### Notes
+
+- Layer 2 protocol
+- It enables redundant Layer 2 networks
+- STP prevents Layer 2 loops by placing redundant ports into blocking state (essentialy disabling the interface)
+- By selecting which ports are forwarding and which ports are blocking, STP creates a single path to/from each point in the network
+- STP message unit is called Bridge Protocol Data Unit (BPDU)
+- STP enabled switches send/receive Hello BPDUs out of all interfaces. Default timer is 2 sec
+- If switch receives Hello BPDU on an interface, it knows that interface is connected to another switch because PCs, routers etc. dont use STP (they dont send BPDUs)
+
+- There is a set process that STP uses to determine which ports hould be forwarding and which should be blocking
+- Switches use one field in BPDU, the Bridge ID field, to elect root bridge for network (Bridge is an old term, this is really a Switch ID)
+- Switch with lowest Bridge ID becomes a root Bridge
+- Bridge ID consistas of 2 fields: Brige Priority and MAC address. Default Bridge Priority is set to 32768, so root bridge becomes bridge with lowest MAC address.
+- Cisco devices contain VLAN id in Bridge ID field so they use version of STP called PVST (Per-VLN Spanning Tree)
+- ALL ports on root bridge are put in FORWARDING state (they send data)
+- Other switches in topology must have a path to reach root bridge
+- When switch is powered on, it assumes it is the root bridge
+- It will only give up its position if it receives "superior" BPDU (lower Bridge ID)
+- Once topology has converged, and switches agree on root bridge, only the root bridge sends BPDUs
+
+
+#### Algorithm
+
+- The switch with lowest Bridge ID is elected as root bridge. All ports on root brige are DESIGNATED PORTS (forwardin state)
+- Each remaining switch will select ONE of its interfaces to be root port. Interface with lowest ROOT COST will be root port (If ports have same cost, lowest neighbor Bridge ID is used, if Bridge ID is same, neoghbors Port ID is used). Root ports are also in forwarding state. ROOT COST depends on interface speed and follows this logic: 10Mbps - 100, 100Mbps - 19, 1Gbps - 4, 10Gbps - 2. Root brige has cost 0 on all interfaces
+- Each remaining collision domain will select ONE interface to be designated port (forwarding state). The other port in collision domain will be non-designated (blocking). Designated port selection: interface on switch with lowest root cost, if tie, we use lowest Bridge Id.
