@@ -457,3 +457,16 @@ If we want to send request from PC1 to PC2 following things need to happen:
 - The switch with lowest Bridge ID is elected as root bridge. All ports on root brige are DESIGNATED PORTS (forwardin state)
 - Each remaining switch will select ONE of its interfaces to be root port. Interface with lowest ROOT COST will be root port (If ports have same cost, lowest neighbor Bridge ID is used, if Bridge ID is same, neoghbors Port ID is used). Root ports are also in forwarding state. ROOT COST depends on interface speed and follows this logic: 10Mbps - 100, 100Mbps - 19, 1Gbps - 4, 10Gbps - 2. Root brige has cost 0 on all interfaces
 - Each remaining collision domain will select ONE interface to be designated port (forwarding state). The other port in collision domain will be non-designated (blocking). Designated port selection: interface on switch with lowest root cost, if tie, we use lowest Bridge Id.
+
+
+### Rapid Spaning Tree Protocol
+
+- Rapid Spaning Tree Protocol is not timer based algorith like 802.1D. Therefore, RSTP offers improvement over 30 sec or more that 802.1D takes to move a link to forwarding.
+- The heart of protocol is the new bridge-bridge handshake mechanism which allows ports to move to forwarding directly.
+
+#### Similarities between STP and RSTP
+
+- RSTP serves the same purpose as STP, blocking specific ports to prevent Layer 2 loops
+- RSTP elects root bridge using same rules as STP
+- RSTP elects root ports with the same rules as STP
+- RSTP elects designated ports with the same rules as STP
