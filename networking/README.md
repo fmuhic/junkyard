@@ -470,3 +470,50 @@ If we want to send request from PC1 to PC2 following things need to happen:
 - RSTP elects root bridge using same rules as STP
 - RSTP elects root ports with the same rules as STP
 - RSTP elects designated ports with the same rules as STP
+
+
+### Dynamic Routing
+
+- IGP (Interior Gateway Protocol)
+- EGP (External Gateway Protocol)
+- IGP is used to share routes inside single organization
+- EGP is usedto share routes between different autonomous systems
+- Only EGP algorithm used in modern is Path Vector (Border Gateway Protocol)
+- EGP uses 2 algorithms: Distance Vector (earlier) and Link State
+- There are 2 Distance Vector protocols: Routing Information Protocol (RIP) and Enhanced Interior Gateway Routing Protocol (EIGRP)
+- There are 2 Link State protocols: Open Shortest Path First (**OSPF**) and Intermediate System to Intermediate System (IS-IS)
+- If router using dynamic routing protocol learns two different routes to the same destination, it will use **metric** value of the routes to determine which is best.
+- Lower metric is better
+- Each routing protocol uses different metric to determine which route is the best
+- If metric is the same, traffic will be load balanced over both routes (Equal Cost Multi-Path - ECMP)
+- Companies use only one IGP, usually OSPF or EIGRP, but if 2 protocols are used than we cant compare them and we have to pick only one 
+- The Administraive Distance (AD) is used to determine which routing protocol is prefered
+- A lower AD is preferred and indicates that routing protocol is more "trustworthy" (more likely to select a good route)
+- ADs: directly connected (0), static (1), External BGP (20), EIGRP (90), IGRP (100), OSPF (110), IS-IS (115), RIP (120), unusable route (255)
+- Metric is only used if AD is the same
+- Floating Static Route is static route that has preconfigured AD to be higher that AD of default dynamic routing protocol
+
+#### Distance Vector Protocols
+
+- Routing Information Protocol (RIP)
+- Enhanced Interior Gateway Routing Protocol (EIGRP)
+- Distance Vector protocols operate by sending following information to their neighbors:
+- their known nestination networks
+- their metrics to reach their known destination networs
+- This method of routing information is often called: "routing by rumor"
+- This is because router doesn't know about the networks beyond its neighbors. It only knows about information their neigbors tell it.
+
+#### Link State Protocols
+
+- Open Shortest Path First (**OSPF**)
+- Intermediate System to Intermediate System (IS-IS)
+- When using Link State routing protocol, every router creates a "connectiviry map" of the network. This map is the same on all routers.
+- To allow this, each router advertises information about its interfaces (connected networks) to its neighbors.
+- These advertisements are passed along to other routers unitl all routers in network develop the same map of the network
+- Each router independently uses this map to calculate best routes to each detination
+- Link state protocols tend to be faster in reacting to network changes than distance vector protocols, but they use more resources on router
+
+### OSPF
+
+- The cost of each link is calculated based on bandwith
+- The total metric is the total cost of each link in the route 
