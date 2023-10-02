@@ -513,6 +513,14 @@ If we want to send request from PC1 to PC2 following things need to happen:
 - Each router independently uses this map to calculate best routes to each detination
 - Link state protocols tend to be faster in reacting to network changes than distance vector protocols, but they use more resources on router
 
+### RIP
+
+- Routing Information Protocol 
+- Uses hop count as its metrics. One router = one hop (bandwith i irrelevant)
+- Maximum hop cout in 15. Anything above that is considered unreachabale
+- It can not be used in large networks
+
+
 ### OSPF
 
 - The cost of each link is calculated based on bandwith
