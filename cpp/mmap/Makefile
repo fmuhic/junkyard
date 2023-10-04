@@ -1,2 +1,11 @@
-alloc-mem: alloc-mem.c
-	gcc -Wall -ggdb -o alloc-mem alloc-mem.c
+BIN=alloc-mem alloc-file
+
+.PHONY: all
+all: $(BIN)
+
+%: %.c
+	gcc -Wall -ggdb -o $@ $<
+
+.PHONY: clean
+clean:
+	rm -rfv $(BIN)
