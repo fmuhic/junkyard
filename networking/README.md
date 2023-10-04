@@ -523,5 +523,26 @@ If we want to send request from PC1 to PC2 following things need to happen:
 
 ### OSPF
 
+- Based on Shortest Path First algorithm of Edsger Dijsktra 
+- There are 3 versions of OSPF: v1 (1989) - no logner in use, v2 (1998) for IPv4, v3 (2008) for IPv6 (can be used for IPv4 as well, but for that v2 is more common)
+- OSPF and other link state protocols create a "connectiviry map" of the network
+- Routers store information about the network in LSAs (Link State Advertisements), which are organized in structure called LSDB (Link State Database)
+- Routers will flood LSAs until all routers in OSPF develop the same map of the network (LSDB)
 - The cost of each link is calculated based on bandwith
 - The total metric is the total cost of each link in the route 
+
+##### OSPF AREA
+
+- OSP uses areas to divide the network. Small networks can be one area without negative effects on performance
+- Area is set of routers that share the same LSDB
+- The backbone area (area 0) is an area all other areas must connect to
+- Routers with interfaces in same area are called internal routers
+- Routers with interfaces in multiple areas are called area border routers (ABRs)
+- ARBs maintain LSDBs for each area they are connected too. Its not recommended to connect ARBs to more than 2 areas (to not overburden the router)
+- Routers connected to backbone area are called backbone routers
+- An intra-area route is a route to a destination inside the same OSPF are
+- An inter-area route is a route to a destination in different OSPF area
+- OSPF areas should be contigues (each individual area should be connected, and not divided up)
+- All OSPF areas must have at least one ABR connected to the backbone area
+- OSPF interfaces in the same subnet must be in the same area
+
