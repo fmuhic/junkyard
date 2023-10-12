@@ -188,6 +188,80 @@ Last_network   = 10.128.1111111_0.00000000 = 10.128.254.0/23
 ```
 <br>
 
+#### IPv6 Classes
+
+##### Global unicast addresses
+
+- Must register to use them. Because they are public addresses, its expected that they are unique
+- **Originaly defined as 2000:/3 (2000 to 3FFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF)**
+- Now defined as as all addresses that are not reserved for other purposes
+
+```rust
+    2001:0DB8:8B00:0001:0000:0000:0000:0001/64
+    2001:0DB8:8B00 # 48-bit global routing prefix, assigned by the ISP
+    0001 # 16-bit subnet identifier, used by enterprises to make various subnets
+    # global routing prefix and subnet identifier together make up IPv6 network prefix
+
+    0000:0000:0000:0001 # 64-bit interface identifier, host portion of the address
+    # host portion can be manually configured or generated from MAC address using EUI-64
+```
+
+##### Unique local addresses
+
+- Unique local IPv6 addresses are private addresses which can not be used over the internet
+- They dont have to be registered. They can be used freely within internal networks
+- They don't need to be globaly unique (we should still try to make them unique)
+- Can't be routed over internet (routers will drop packets)
+- **Defined as FC00::7 (FC00:: to FDFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF)**
+- However, later update requires that 8th bit is set to 1, so the first 2 digits must be **FD**
+
+```rust
+    FD45:93AC:8A8F:0001:0000:0000:0000:0001/64
+    FD # 2-bit indicating that address is unique local address
+    45:93AC:8A8F # 40-bit global ID, which should be randomly generated
+    # global ID should be unique so that addresses dont overlap when companies merge
+    0001 # 16-bit subnet identifier
+    # these first 64-bits make up network indentifier
+
+    0000:0000:0000:0001 # 64-bit interface identifier, host portion of the address
+    # host portion can be manually configured or generated from MAC address using EUI-64
+```
+
+##### Link local addresses
+
+- Link-local IPv6 addresses are automatically generated on IPv6 enabled interfaces
+- Link-local means that these addresses are used for communication within single link (subnet)
+- Routers will not route packets with link-local destination IPv6 address
+- Use command "$ipv6 enable" to enable IPv6 addresses on interface
+- **Defined as FE80::/10 (FE80:: to FEBF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF)**
+- However, the standard states that 54 bits after FE80/10 should all be 0, so we wont see link-local addresses begining with FE9, FEA or FEB. Only FE8
+- The interface ID is generated using EU-64 rules
+- Common uses are: routing protocol peering, next-hop address for static routes, Neighbor Discovery Protocol (IPv6 replacement for ARP)
+
+##### Multicast addresses
+
+- **IPv6 uses range FF00::/8 for multicast (FF00:: to FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF)**
+- IPv6 does not use broadcast (There is no broadcast address in IPv6)
+- Its possible to send message to all hosts in subnet using multicast
+- Important mulitcast addresses
+```rust
+    FF02::1 # To all nodes/hosts, functions like broadcast (IPv4 equivalent is 224.0.0.1)
+    FF02::2 # To all routers (IPv4 equivalent is 224.0.0.2)
+    FF02::5 # To all OSPF routers (IPv4 equivalent is 224.0.0.5)
+    FF02::6 # To all OSPF DRs/BDRs (IPv4 equivalent is 224.0.0.6)
+    FF02::9 # To all RIP routers (IPv4 equivalent is 224.0.0.9)
+    FF02::A # To all EIGRP routers (IPv4 equivalent is 224.0.0.10)
+```
+
+##### Other IPv6 addresses
+
+- Anycast
+- :: = Unspecified IPv6 address (IPv4 equivalent is 0.0.0.0)
+- ::1 = Loopback addressk (IPv4 equivalent is 127.0.0.0/8)
+
+
+
+
 ### Packet Tracer
 
 <br>
