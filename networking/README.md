@@ -31,6 +31,12 @@
 - ARP request is broadcast, and we wait for correct device to reply
 - Broadcast is indicated by putting FFFF.FFFF.FFFF as a destination MAC address
 - ARP reply is unicast, and its destination is host that sent ARP request
+
+```rust
+// Check ARP table
+$arp -a
+
+```
 #### Network (Third Layer)
 - Provides connectivity between hosts on different networks
 - Provides logical addressing (IP)
@@ -620,3 +626,18 @@ If we want to send request from PC1 to PC2 following things need to happen:
 - All OSPF areas must have at least one ABR connected to the backbone area
 - OSPF interfaces in the same subnet must be in the same area
 
+
+### First Hop Redundancy Protocols
+
+- FHRP is a computer networking protocol which is designed to protect the default gateway used on subnetwork by allowing two or more routers to provide backup for that address.
+- In the event of failure of an active router, the backup router will take over the address, usually within a few seconds.
+- The name First Hop is used because default gateway is the first hop to a destination outside network
+- Two routers share VIP (Virtual IP address), and negotiate which one will be ACTIVE and which one STAND BY router by sending multicast hello messages
+- We configure PCs to use VIP as their default gateway
+- When PCs want to send message outside of network, it will encapsulate VIP packet header, but since it doesn't know the destination MAC address of ACTIVE router, it will send ARP to learn it
+- Both routers will receive ARP, but only ACTIVE router will send ARP reply with VIRTUAL MAC address inside it
+- When ACTIVE router goes down, STAND BY router will figure it out since it wont receive any hello messages. It will send GRATUITOUS ARP (this ARP is sent without request) replies to all switched to update their MAC tables.
+- If router returns it will take STAND BY role
+- Host Standby Router Protocol (HSRP) is Cisco proprietery FHRP protocol
+- Virtual Router Redundancy Protocol (VRRP) is open standard protocol
+- Gateway Load Balancing Protocol (GLBP)
