@@ -641,3 +641,37 @@ If we want to send request from PC1 to PC2 following things need to happen:
 - Host Standby Router Protocol (HSRP) is Cisco proprietery FHRP protocol
 - Virtual Router Redundancy Protocol (VRRP) is open standard protocol
 - Gateway Load Balancing Protocol (GLBP)
+
+### Access Control List (ACL)
+
+- ACL is list of rules on router (in global config mode) used to filter traffic
+- This list is ordered sequence of ACEs (Access Control Entries)
+- After creation, ACL have to be applied to an interface
+- ACLs are applied inbound or outbound
+- When router checks a packet against the ACL, it processes ACEs in order, from top to bottom
+- **A maximum of one ACL can be applied to a single interface per direction (2 ACLs per interface in total)**
+- **I packet doesn't match any ACE in ACL it will be dropped (Implicit deny)**
+
+#### Standard ACL
+
+- Match based on Source IP Address only
+- Standard Numbered ACL
+- Standard Named ACL
+- Standard ACLs should be applied as close to destination as possible
+
+#### Extended ACL
+
+- Match based on Srouce/Destination IP, Source/Destination Port, etc
+- Extended Numbered ACL
+- Extended Named ACL
+- Standard ACLs are more specific and they should be applied as close to source as possible
+
+
+### Network Time Protocol (NTP)
+
+- All devices have an internal clock (routers, swithes, PCs)
+- The internal hardware clock of a device will drift over time, so its not ideal time source
+- NTP allowes for automatic syncing of time over a network
+- NTP uses UDP port 123 to communicate
+
+
