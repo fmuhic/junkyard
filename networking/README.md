@@ -675,3 +675,17 @@ If we want to send request from PC1 to PC2 following things need to happen:
 - NTP uses UDP port 123 to communicate
 
 
+### Dynamic Host Configuration Protocol (DHCP)
+
+- DHCP is used to allow hosts to automatically/dynamically learn various aspects of their network configuration such as IP address, subnet mask, default gateway, DNS server etc. without manual configuration
+- DHCP is used mainly to configure end hosts, while routers, switches etc need manual configuration to function properly
+- In small networks router usually acts as DHCP server for hosts in the LAN
+- In larger networks, DHCP server is usually Windows/Linux server
+- DHCP servers use port UDP 67
+- DHCP clients use port UDP 68
+```sh
+# On Windows
+$ipconfig /all
+```
+
+### Simple Network Management Protocol (SNMP)
