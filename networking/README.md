@@ -689,3 +689,45 @@ $ipconfig /all
 ```
 
 ### Simple Network Management Protocol (SNMP)
+
+
+### Network Address Translation (NAT)
+
+- IPv4 does not provide enough addresses for for all devices that need an IP address in modern worl
+- Long-term solution is to switch to IPv6
+- There are three short-term solutions:
+    - CIDR (Classless Inter-Domain Routing)
+    - Private IPv4 addresses
+    - NAT
+- RFC 1918 specifies the following IPv4 ranges as private (from each range A,B,C):
+    - 10.0.0.0/8 (10.0.0.0 to 10.255.255.255)
+    - 172.16.0.0/12 (172.16.0.0 to 172.31.255.255)
+    - 192.168.0.0/16 (192.168.0.0 to 192.168.255.255)
+- One of the reasons to use NAT is to allow hosts with private IP address to communicate with other hosts over the internet
+
+##### Static NAT
+
+- Source NAT translates source IP address of a packet
+- Specific kind of NAT is STATIC NAT
+- Static NAT involves statically configuring one-to-one mappings of private IP addressses to public IP addresses
+- An inside local IP address is mapped to an inside global IP address
+    - An inside local address is IP address of inside host, from perspective of the local network (address configured on host, usually private address)
+    - An inside global address is IP address of inside host, from the perspective of outside host (address of a host after NAT, usually public address)
+
+##### Dynamic NAT
+
+- In dynamic NAT, the router dynamically maps inside local addresses to inside global addresses as needed, and then clears the mapping when its no longer needed
+- An ACL is used to identify which traffic should be translated
+- if the source IP is permitted by the ACL, the source IP will be translated
+- if the source IP is denied by the ACL, the source IP will NOT translated, but traffic will not be dropped
+- NAT pool is used to define the available inside global addresses
+- Although they are dynamically assigned, the mappings are still one to one (one inside local IP address per inside global IP address)
+- If there are not enough inside global IP addresses available (all are currently being used) its called NAT pool exhaustion (in this case router will drop the packet and hosts will be unable to acces outside network until one of inside global addresses becomes available)
+- Dynamic NAT entries will timeout automatically if not used, or we can clear them manually
+
+##### Port Address Translation (PAT)
+
+- PAT (aka NAT overload) translates both IP address and port number (if necessary) 
+- By using a unique port number for each communication flow, a single public IP address can be used by many different internal hosts (ports are 16 bits = 65k port numbers)
+- The router will keep track which inside local address is using which inside global address and port
+- Because many inside hosts can share a single public IP address, PAT is very usefull in preserving public IP addresses and it is used in networks all over the world
