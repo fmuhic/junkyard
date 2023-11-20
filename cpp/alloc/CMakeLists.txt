@@ -1,10 +1,15 @@
 cmake_minimum_required(VERSION 3.13)
 
-project(custom_allocator C)
-
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-add_executable(alloc main.c)
+project(custom_allocator VERSION 1.0)
 
-target_include_directories(alloc PRIVATE headers)
+add_executable(alloc
+    src/alloc.cpp
+    src/main.cpp
+)
+
+target_include_directories(alloc PRIVATE include)
