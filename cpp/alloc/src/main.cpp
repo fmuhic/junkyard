@@ -57,7 +57,5 @@ int main() {
         std::cout << "Stuff(" << s->word << ", " << s->wSize << ", " << s->uselesNumber << ")\n";
     }
 
-
-
     free(&m);
 }
