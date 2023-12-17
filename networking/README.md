@@ -689,3 +689,12 @@ $ipconfig /all
 ```
 
 ### Simple Network Management Protocol (SNMP)
+
+- Simple Network Management Protocol (SNMP) is an application-layer protocol for monitoring and managing network devices on a local area network (LAN) or wide area network (WAN).
+- SNMP has 2 main components:
+    - Managed Devices are devices being managed using SNMP, such as network devices (switches, routers, firewalls etc)
+    - Network Management Stations (NMS) are SNMPs servers that manage the devices
+        - NMS receives notifications from managed devices
+        - NMS changes settings on managed devices
+        - NMS checks status of managed devices
+- Variables such as inteface status, temperature, traffic load, host name, etc. are stored in Management Information Base (MIB) and identified using Object IDs (OIDs)

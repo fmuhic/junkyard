@@ -33,6 +33,10 @@ return {
       config.options
     )
 
+    require("lspconfig")["gopls"].setup(
+      config.options
+    )
+
     require("lspconfig")["tsserver"].setup(
       config.options
     )
