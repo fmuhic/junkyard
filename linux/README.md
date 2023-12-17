@@ -1,3 +1,9 @@
-# Create symbolic link between windows and wsl
+### OpenSSL
 
-- mklink /D C:\Users\Fudo\AppData\Local\nvim \\wsl.localhost\Ubuntu-22.04\home\fudo\code\junkyard\config\nvim
+```sh
+# Create RSA private/public key, encrypt it with AES and store in private.pem
+openssl genrsa -aes256 -out private.pem
+
+# Extract public key, and store it in public.pem
+openssl rsa -in private.pem -outform PEM -pubout -out public.pem
+```
