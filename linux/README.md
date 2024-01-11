@@ -1,3 +1,10 @@
+### Permissions
+```sh
+# Give all permissions to ower and only read for all other users
+# For more see https://chmod-calculator.com
+chmod 744 my file
+```
+
 ### OpenSSL
 
 ```sh
