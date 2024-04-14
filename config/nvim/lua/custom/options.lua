@@ -11,7 +11,7 @@ local options = {
     completeopt = { "menuone", "noselect" },
 
     -- so that `` is visible in markdown files
-    conceallevel = 0,
+    conceallevel = 2,
 
     -- the encoding written to a file
     fileencoding = "utf-8",
