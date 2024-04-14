@@ -145,8 +145,3 @@ keymap("t", "<C-l>l", "<C-\\><C-N><C-w>l", term_opts)
 --------------------------------------
 --------------- Plugin ---------------
 --------------------------------------
-
--- Neorg
-keymap("n", "mm", ":Neorg workspace notes<Cr>", opts)
-keymap("n", "mw", ":Neorg workspace work<Cr>", opts)
-keymap("n", "mc", ":Neorg return<Cr>", opts)
