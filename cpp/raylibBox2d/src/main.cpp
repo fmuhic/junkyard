@@ -1,3 +1,4 @@
+#include "box2d/math_types.h"
 #include "raylib.h"
 #include "box2d/box2d.h"
 
@@ -34,6 +35,16 @@ void updateScreenResolution(Camera2D& camera) {
     camera.zoom = newZoom;
 }
 
+struct Entity {
+    b2BodyId bodyId;
+};
+
+void DrawEntity(const Entity* entity) {
+    b2Vec2 p = b2Body_GetWorldPoint(entity->bodyId, b2Vec2 { -0.5f * 1.0f, 0.5f * 1.0f });
+    float radians = b2Body_GetAngle(entity->bodyId);
+    drawSprite(Vector2 {p.x, p.y}, 1.0f, 1.0f, -RAD2DEG * radians, RED);
+}
+
 int main(void)
 {
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);
@@ -46,25 +57,57 @@ int main(void)
     camera.rotation = 0.0f;
     camera.zoom = 1.0f;
 
+
+    f32 tileSize = 1.0f;
+    b2WorldDef worldDef = b2DefaultWorldDef();
+	b2WorldId worldId = b2CreateWorld(&worldDef);
+
+    b2Polygon tilePolygon = b2MakeSquare(0.5f * 1.0f);
+
+    Entity groundEntities[20] = {};
+	for (int i = 0; i < 20; ++i)
+	{
+		Entity* entity = groundEntities + i;
+		b2BodyDef bodyDef = b2DefaultBodyDef();
+		bodyDef.position = b2Vec2 {(1.0f * i - 10.0f) * tileSize, -4.5f - 0.5f * tileSize };
+
+		entity->bodyId = b2CreateBody(worldId, &bodyDef);
+		b2ShapeDef shapeDef = b2DefaultShapeDef();
+		b2CreatePolygonShape(entity->bodyId, &shapeDef, &tilePolygon);
+	}
+
+    Entity boxEntities[6] = {};
+	for (int i = 0; i < 6; ++i)
+	{
+		Entity* entity = boxEntities + i;
+		b2BodyDef bodyDef = b2DefaultBodyDef();
+		bodyDef.type = b2_dynamicBody;
+		bodyDef.position = b2Vec2{ 0.5f * tileSize * i, -4.0f + tileSize * i };
+		entity->bodyId = b2CreateBody(worldId, &bodyDef);
+		b2ShapeDef shapeDef = b2DefaultShapeDef();
+		shapeDef.restitution = 0.1f;
+		b2CreatePolygonShape(entity->bodyId, &shapeDef, &tilePolygon);
+	}
+
+
     while (!WindowShouldClose())
     {
-        if (IsKeyPressed(KEY_F)) {
+        if (IsKeyPressed(KEY_F))
             ToggleFullscreen();
-            int monitor = GetCurrentMonitor();
-            SetWindowSize(GetMonitorWidth(monitor), GetMonitorHeight(monitor));
-            
-        }
+
+        float deltaTime = GetFrameTime();
+        b2World_Step(worldId, deltaTime, 6);
 
         updateScreenResolution(camera);
         BeginDrawing();
         ClearBackground(RAYWHITE);
         BeginMode2D(camera);
 
-            for (i32 i = -16; i < 16; i++) {
-                for (i32 j = -9; j < 9; j++) {
-                    drawSprite(Vector2 { (f32) i, (f32) j }, 0.95f, 0.95f, 0.0f, BLUE);
-                }
-            }
+            for (int i = 0; i < 20; ++i)
+                DrawEntity(groundEntities + i);
+
+            for (int i = 0; i < 6; ++i)
+                DrawEntity(boxEntities + i);
 
         EndMode2D();
         EndDrawing();
