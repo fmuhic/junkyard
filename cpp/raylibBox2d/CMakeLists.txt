@@ -30,6 +30,10 @@ FetchContent_MakeAvailable(raylib)
 
 add_executable(game
     src/main.cpp
+    src/entity.cpp
+    src/entity_manager.cpp
+    src/game.cpp
+    src/renderer.cpp
 )
 
 target_include_directories(game PRIVATE include)
