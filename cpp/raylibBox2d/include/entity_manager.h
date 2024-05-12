@@ -1,5 +1,6 @@
 #pragma once
 
+#include "box2d/geometry.h"
 #include "box2d/math_types.h"
 #include "types.h"
 #include "entity.h"
@@ -10,11 +11,13 @@ struct EntityManager {
 
     void createStaticBox(b2WorldId worldId, b2Vec2 p, Color color);
     void createDynamicBox(b2WorldId worldId, b2Vec2 p, Color color);
+    void createDynamicCircle(b2WorldId worldId, b2Vec2 p, Color color);
     Entity * getFirstFreeEntity();
     
     std::vector<Entity> entities;
 
     private:
 
-    b2Polygon boxPolygon;
+    b2Polygon box;
+    b2Circle circle;
 };
