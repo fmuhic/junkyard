@@ -1,5 +1,6 @@
 #include "game.h"
 #include "entity_manager.h"
+#include "raylib.h"
 
 Game::Game(GameConfig gameConfig):
     entityManager(gameConfig.maxEntityCount)
@@ -64,6 +65,15 @@ void Game::createScene() {
             worldId,
             b2Vec2 { 0.5f * config.tileSize * i, -4.0f + config.tileSize * i },
             BLUE
+        );
+	}
+
+    i32 dynamicCircleCount = 6;
+	for (int i = 0; i < dynamicCircleCount; ++i)	{
+        entityManager.createDynamicCircle(
+            worldId,
+            b2Vec2 { 0.5f * config.tileSize * i, 5.0f + config.tileSize * i },
+            PURPLE
         );
 	}
 }
