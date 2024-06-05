@@ -18,7 +18,7 @@ func fetch(url string) ([]byte, error) {
     return io.ReadAll(resp.Body)
 }
 
-func fetchAll(cache *cache.Caffetin, urls []string) (chan interface{}) {
+func fetchAll(cache *cache.Caffetin[[]byte], urls []string) (chan interface{}) {
     var wg sync.WaitGroup
     result := make(chan interface{}, len(urls))
     for _, url := range urls {
@@ -26,13 +26,11 @@ func fetchAll(cache *cache.Caffetin, urls []string) (chan interface{}) {
         go func(url string) {
             defer wg.Done()
             start := time.Now()
-            resp, err := cache.Get(url, func(key string) (interface{}, error) {
-                return fetch(url)
-            })
+            resp, err := cache.Get(url, fetch)
             if err != nil {
                 fmt.Printf("Unable to calculate cache entry %s\n", err)
             } else {
-                fmt.Printf("url: %s, time: %s, size: %d\n", url, time.Since(start), len(resp.([]byte)))
+                fmt.Printf("url: %s, time: %s, size: %d\n", url, time.Since(start), len(resp))
                 result <- resp
             }
         }(url)
@@ -47,7 +45,7 @@ func fetchAll(cache *cache.Caffetin, urls []string) (chan interface{}) {
 }
 
 func main() {
-    cache := cache.NewCaffetin()
+    cache := cache.NewCaffetin[[]byte]()
     results := fetchAll(cache, []string{
         "https://example.com",
         "https://google.com",
