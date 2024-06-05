@@ -18,9 +18,9 @@ func fetch(url string) ([]byte, error) {
     return io.ReadAll(resp.Body)
 }
 
-func fetchAll(cache *cache.Caffetin[[]byte], urls []string) (chan interface{}) {
+func fetchAll(cache *cache.Caffetin[[]byte], urls []string) (chan []byte) {
     var wg sync.WaitGroup
-    result := make(chan interface{}, len(urls))
+    result := make(chan []byte, len(urls))
     for _, url := range urls {
         wg.Add(1)
         go func(url string) {
