@@ -1,7 +1,5 @@
 #pragma once
 
-#include "box2d/geometry.h"
-#include "box2d/math_types.h"
 #include "types.h"
 #include "entity.h"
 #include <vector>

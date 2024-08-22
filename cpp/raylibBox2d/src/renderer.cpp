@@ -1,6 +1,7 @@
 #include "renderer.h"
+#include "box2d/box2d.h"
+#include "box2d/math_functions.h"
 #include "raylib.h"
-#include <iostream>
 
 Renderer::Renderer() {
 }
@@ -22,7 +23,7 @@ void Renderer::draw(std::vector<Entity>& entities, Camera2D &camera) {
 }
 
 void Renderer::drawEntity(Entity& e) {
-    f32 angle = -RAD2DEG * b2Body_GetAngle(e.bodyId);
+    f32 angle = -RAD2DEG * b2Rot_GetAngle(b2Body_GetRotation(e.bodyId));
     f32 width = 1.0f;
     f32 height = 1.0f;
 
