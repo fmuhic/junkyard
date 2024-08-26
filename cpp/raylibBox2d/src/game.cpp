@@ -10,7 +10,7 @@ Game::Game(GameConfig gameConfig):
     b2WorldDef worldDef = b2DefaultWorldDef();
 	worldId = b2CreateWorld(&worldDef);
 
-    Camera2D camera = {};
+    camera = {};
     camera.target = Vector2 { 0.0f, 0.0f };
     camera.offset = Vector2 { config.screenWidth / 2.0f, config.screenHeight / 2.0f };
     camera.rotation = 0.0f;

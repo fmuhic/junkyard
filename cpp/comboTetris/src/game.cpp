@@ -7,7 +7,7 @@ Game::Game(GameConfig gameConfig):
 {
     config = gameConfig;
 
-    Camera2D camera = {};
+    camera = {};
     camera.target = Vector2 { 0.0f, 0.0f };
     camera.offset = Vector2 { config.screenWidth / 2.0f, config.screenHeight / 2.0f };
     camera.rotation = 0.0f;
