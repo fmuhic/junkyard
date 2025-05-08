@@ -36,6 +36,8 @@ class HashMap {
     bool add(K key, V value);
     bool remove(K key);
     void clear();
+    inline ui32 getSize() { return size; }
+    inline ui32 getCapacity() { return capacity; }
 
     void debug();
 

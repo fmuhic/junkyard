@@ -1,5 +1,8 @@
+#include <cstdlib>
 #include <ctime>
 #include <iostream>
+#include <chrono>
+#include <unordered_map>
 #include "map.h"
 #include "murmur3.h"
 #include "types.h"
@@ -8,7 +11,7 @@
 struct MyKey {
     MyKey(i32 f, i32 s): first(f), second(s) {}
 
-    ui32 hash() {
+    ui32 hash() const {
         return murmurHash3_x86_32(this, sizeof(MyKey), time(NULL));
     }
 
@@ -39,6 +42,15 @@ struct MyPayload {
     i32 count;
     f32 x;
     f32 y;
+};
+
+template <>
+struct std::hash<MyKey>
+{
+  std::size_t operator()(const MyKey& k) const
+  {
+      return k.hash();
+  }
 };
 
 struct Key {
@@ -76,6 +88,17 @@ std::ostream& operator<<(std::ostream& os, const MyPayload& payload) {
 std::ostream& operator<<(std::ostream& os, const Key& key) { 
     os << '(' << key.x << ')'; 
     return os; 
+}
+
+void flush_cache() {
+    const size_t bigger_than_cachesize = 100 * 1024 * 1024;
+    long *p = new long[bigger_than_cachesize];
+    // When you want to "flush" cache. 
+    for(int i = 0; i < bigger_than_cachesize; i++)
+    {
+       p[i] = rand();
+    }
+    delete [] p;
 }
 
 int main(void) {
@@ -116,6 +139,55 @@ int main(void) {
     collisions.remove(Key(1807813940));
     collisions.add(Key(1807813940), 0);
     collisions.debug();
+
+    flush_cache();
+    std::cout << "__________________________________________\n";
+    std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
+
+    HashMap<MyKey, MyPayload> stressMap;
+    srand(time(NULL));
+    for (i32 i = 0; i < 10000000; ++i) {
+        stressMap.add(MyKey(std::rand(), std::rand()), MyPayload(33, 3.21f, 65.2f));
+    }
+    std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
+
+    std::cout << "INSERT Time difference = " << std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << "[ms]" << std::endl;
+    std::cout << "Size = " << stressMap.getSize() << ", capacity = " << stressMap.getCapacity() << "\n";
+    std::cout << "__________________________________________\n";
+
+    flush_cache();
+    begin = std::chrono::steady_clock::now();
+    for (i32 i = 0; i < 10000000; ++i) {
+        stressMap.get(MyKey(std::rand(), std::rand()));
+    }
+    end = std::chrono::steady_clock::now();
+    std::cout << "FIND Time difference STD = " << std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << "[ms]" << std::endl;
+    std::cout << "__________________________________________\n";
+
+
+
+    flush_cache();
+    begin = std::chrono::steady_clock::now();
+    std::unordered_map<MyKey, MyPayload> std_map;
+    for (i32 i = 0; i < 10000000; ++i) {
+        std_map.insert({MyKey(std::rand(), std::rand()), MyPayload(33, 3.21f, 65.2f)});
+    }
+    end = std::chrono::steady_clock::now();
+
+    std::cout << "INSERT Time difference STD = " << std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << "[ms]" << std::endl;
+    std::cout << "Size STD = " << std_map.size() << "\n";
+    std::cout << "__________________________________________\n";
+
+    flush_cache();
+    begin = std::chrono::steady_clock::now();
+    for (i32 i = 0; i < 10000000; ++i) {
+        std_map.find(MyKey(std::rand(), std::rand()));
+    }
+    end = std::chrono::steady_clock::now();
+
+    std::cout << "FIND Time difference STD = " << std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << "[ms]" << std::endl;
+    std::cout << "Size STD = " << std_map.size() << "\n";
+    std::cout << "__________________________________________\n";
 
     return 1;
 }
