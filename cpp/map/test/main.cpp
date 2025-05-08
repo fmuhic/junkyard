@@ -81,16 +81,27 @@ std::ostream& operator<<(std::ostream& os, const Key& key) {
 int main(void) {
     HashMap<MyKey, MyPayload> map;
     map.add(MyKey(12, 74), MyPayload(33, 3.21f, 65.2f));
-    map.add(MyKey(12, 74), MyPayload(33, 3.21f, 65.2f));
-    map.add(MyKey(72, 21), MyPayload(33, 3.21f, 65.2f));
-    map.add(MyKey(89, 95), MyPayload(33, 3.21f, 65.2f));
-    map.add(MyKey(96, 58), MyPayload(33, 3.21f, 65.2f));
+    map.add(MyKey(12, 74), MyPayload(334321, 13.21f, 65.2f));
+    map.add(MyKey(72, 21), MyPayload(1, 5.99, 1234.7f));
+    map.add(MyKey(89, 95), MyPayload(97, 76.132f, 43.2f));
+    map.add(MyKey(96, 58), MyPayload(55, 1.87, 60.3f));
     map.add(MyKey(96, 58), MyPayload(99, 1234.11f, 8888.78f));
     map.add(MyKey(0, 0), MyPayload(11, 123.2f, 543.2f));
     map.add(MyKey(0, 0), MyPayload(22, 77.1f, 1234.321f));
 
     map.remove(MyKey(89, 95));
     map.debug();
+
+    MyPayload* a = map.get(MyKey(12, 74));
+    std::cout << "Get = " << *a << "\n";
+    MyPayload* b = map.get(MyKey(72, 21));
+    std::cout << "Get = " << *b << "\n";
+    MyPayload* c = map.get(MyKey(89, 95)); // missing
+    std::cout << "Get = " << c << "\n";
+    MyPayload* d = map.get(MyKey(96, 58));
+    std::cout << "Get = " << *d << "\n";
+    MyPayload* e = map.get(MyKey(0, 0));
+    std::cout << "Get = " << *e << "\n";
 
     map.clear();
     map.debug();
