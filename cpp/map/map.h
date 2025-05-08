@@ -14,6 +14,11 @@ static inline int roundToPowerOf2(int x) {
     return (x <= 1) ? 1 : 1 << (32 - (int) clz32((ui32) x - 1));
 }
 
+static bool keyIsZero(void *key, unsigned int size) {
+    unsigned char *mm = (unsigned char*) key;
+    return (*mm == 0) && memcmp(mm, mm + 1, size - 1) == 0;
+}
+
 template <typename K, typename V>
 struct MapItem {
     ui32 hash;
@@ -38,6 +43,7 @@ class HashMap {
     // We need move here as well
     void safeAddItem(K key, V value, ui32 hash);
     ui32 findSlot(K key, ui32 hash);
+    inline bool slotIsFree(K key, ui32 hash);
     void growTable();
 
     MapItem<K, V>* elements;
@@ -64,9 +70,10 @@ template <typename K, typename V>
 HashMap<K,V>::~HashMap() {
     free(elements);
 }
+
 template <typename K, typename V>
 V* HashMap<K,V>::get(K key) {
-	ui32 hash = key.hash();
+	ui32 hash = hash(key);
 	assert(hash != 0);
 	int index = findSlot(key, hash );
     if (elements[index].key == key) {
@@ -78,14 +85,19 @@ V* HashMap<K,V>::get(K key) {
 }
 
 template <typename K, typename V>
+bool HashMap<K,V>::slotIsFree(K key, ui32 hash) {
+    return hash == 0 && key.isZero();
+}
+
+template <typename K, typename V>
 bool HashMap<K,V>::add(K key, V value) {
 	ui32 hash = key.hash();
-	assert(hash != 0 && "Hash of zero is a sentinel");
 
 	int index = findSlot(key, hash);
-	if (elements[index].hash != 0 )	{
+	if (elements[index].key == key) {
 		// Already in set, just replace it
-		assert(elements[index].hash == hash && elements[index].key == key);
+		// assert(elements[index].hash == hash && elements[index].key == key);
+        elements[index].hash = hash;
         elements[index].value = value;
 		return true;
 	}
@@ -101,7 +113,7 @@ bool HashMap<K,V>::add(K key, V value) {
 template <typename K, typename V>
 ui32 HashMap<K,V>::findSlot(K key, ui32 hash) {
 	int index = hash & (capacity - 1);
-	while (elements[index].hash != 0 && elements[index].key != key)	{
+	while (!slotIsFree(elements[index].key, elements[index].hash) && !(elements[index].key == key))	{
 		index = (index + 1) & (capacity - 1);
 	}
 
@@ -123,7 +135,7 @@ void HashMap<K,V>::growTable() {
 	// Transfer items into new array
 	for (ui32 i = 0; i < oldCapacity; ++i) {
 		MapItem<K, V>* item = oldElements + i;
-		if (item->hash == 0) {
+		if (slotIsFree(item->key, item->hash)) {
 			// this item was empty
 			continue;
 		}
@@ -138,7 +150,7 @@ void HashMap<K,V>::growTable() {
 template <typename K, typename V>
 void HashMap<K,V>::safeAddItem(K key, V value, ui32 hash) {
     ui32 index = findSlot(key, hash);
-	assert(elements[index].hash == 0);
+	assert(slotIsFree(elements[index].key, elements[index].hash));
 
 	elements[index].key = key;
 	elements[index].value = value;
@@ -155,13 +167,14 @@ template <typename K, typename V>
 bool HashMap<K,V>::remove(K key) {
     ui32 hash = key.hash();
 	ui32 i = findSlot(key, hash);
-	if (elements[i].hash == 0) {
+	if (slotIsFree(elements[i].key, elements[i].hash)) {
 		// Not in set
 		return false;
 	}
 
 	// Mark item i as unoccupied
 	elements[i].hash = 0;
+	elements[i].key.setToZero();
 
 	assert(size > 0);
 	--size;
@@ -170,37 +183,39 @@ bool HashMap<K,V>::remove(K key) {
 	ui32 j = i;
 	while (true) {
 		j = ( j + 1 ) & ( capacity - 1 );
-		if (elements[j].hash == 0)	{
-			break;
+		// if (elements[j].hash == 0)	{
+		if (slotIsFree(elements[j].key, elements[j].hash)) {
+            break;
 		}
 
 		// k is the first item for the hash of j
-		int k = elements[j].hash & ( capacity - 1 );
+        int k = elements[j].hash & ( capacity - 1 );
 
-		// determine if k lies cyclically in (i,j]
-		// i <= j: | i..k..j |
-		// i > j: |.k..j  i....| or |....j     i..k.|
-		if (i <= j)	{
-			if ( i < k && k <= j ) {
-				continue;
-			}
-		}
-		else {
-			if (i < k || k <= j) {
-				continue;
-			}
-		}
+        // determine if k lies cyclically in (i,j]
+        // i <= j: | i..k..j |
+        // i > j: |.k..j  i....| or |....j     i..k.|
+        if (i <= j)	{
+            if ( i < k && k <= j ) {
+                continue;
+            }
+        }
+        else {
+            if (i < k || k <= j) {
+                continue;
+            }
+        }
 
-		// Move j into i
-		elements[i] = elements[j];
+        // Move j into i
+        elements[i] = elements[j];
 
-		// Mark item j as unoccupied
-		elements[j].hash = 0;
+        // Mark item j as unoccupied
+        elements[j].hash = 0;
+        elements[j].key.setToZero();
 
-		i = j;
-	}
+        i = j;
+    }
 
-	return true;
+    return true;
 }
 
 template <typename K, typename V>
@@ -208,8 +223,8 @@ void HashMap<K,V>::debug() {
     std::cout << "Map, size = " << size << ", capacity = " << capacity << "\n";
     for (i32 i = 0; i < capacity; ++i) {
         MapItem<K, V> item = elements[i];
-        if (item.hash == 0) continue;
+        if (slotIsFree(item.key, item.hash)) continue;
 
-        std::cout << "Item " << i << ": K = " << item.key << ",  V = " << item.value << "\n";
+        std::cout << "Item " << i << ": K = " << item.key << ", V = " << item.value << ", hash = " << item.hash <<  "\n";
     }
 }

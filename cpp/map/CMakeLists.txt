@@ -9,6 +9,7 @@ project(map VERSION 1.0)
 add_library(map
     map.h
     map.cpp
+    murmur3.cpp
 )
 
 target_include_directories(map
