@@ -74,7 +74,6 @@ HashMap<K,V>::~HashMap() {
 template <typename K, typename V>
 V* HashMap<K,V>::get(K key) {
 	ui32 hash = hash(key);
-	assert(hash != 0);
 	int index = findSlot(key, hash );
     if (elements[index].key == key) {
         return &elements[index].value;
