@@ -17,10 +17,8 @@ systemctl enable docker
 
 # Add ec2-user to docker group (so you can run docker without sudo)
 usermod -aG docker ec2-user
-```
 
-- Start nginx inside docker
-```sh
-# Create index.html in ~/web folder and run nginx
-docker run -d -p 80:80 -v ~/web:/usr/share/nginx/html nginx
+# Install docker compose
+sudo curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
 ```
