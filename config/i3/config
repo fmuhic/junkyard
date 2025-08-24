@@ -200,7 +200,8 @@ exec i3-msg 'exec alacritty'
 
 # Display settings
 exec --no-startup-id /home/fudo/software/i3-autodisplay/i3-autodisplay
-# exec --no-startup-id xrandr --output eDP-1 --right-of HDMI-1
+exec --no-startup-id xrandr --output eDP-1 --right-of HDMI-1
+exec_always --no-startup-id picom --config ~/.config/picom/picom.conf -b
 
 # floating pop up automatically
 for_window [window_role="pop-up"] floating enable
